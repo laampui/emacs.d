@@ -255,6 +255,7 @@
         emacs-lisp-mode
         python-mode
         markdown-mode
+        package-menu-mode
         org-mode))
 #+END_SRC
 * projectile
@@ -510,6 +511,9 @@
   :mode ("\\.js\\'" . js2-mode)
 )
 #+END_SRC
+* indium
+(use-package indium
+  :ensure t)
 * rjsx-mode
 ;;(use-package rjsx-mode
 ;;  :ensure t
