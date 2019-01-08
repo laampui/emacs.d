@@ -526,7 +526,7 @@
 * rjsx-mode
 (use-package rjsx-mode
   :ensure t
-  :mode "\\.js\\'")
+  :mode ("\\.js\\'" . rjsx-mode))
 * ng2-mode
 #+BEGIN_SRC emacs-lisp
 (use-package ng2-mode
