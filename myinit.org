@@ -521,16 +521,20 @@
 )
 #+END_SRC
 * indium
+#+BEGIN_SRC emacs-lisp
 (use-package indium
   :ensure t)
+#+END_SRC
 * rjsx-mode
+#+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
   :ensure t
   :mode ("\\.js\\'" . rjsx-mode))
+#+END_SRC
 * ng2-mode
 #+BEGIN_SRC emacs-lisp
-(use-package ng2-mode
-  :ensure t)
+;;(use-package ng2-mode
+;;  :ensure t)
 #+END_SRC
 * winum
 #+BEGIN_SRC emacs-lisp
