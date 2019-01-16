@@ -367,7 +367,7 @@
 #+BEGIN_SRC emacs-lisp
 (use-package tern-mode
   :ensure tern
-  :config
+  :init
   (setq tern-command (append tern-command '("--no-port-file")))
   :hook(js2-mode javascript-mode web-mode rjsx-mode))
 #+END_SRC
