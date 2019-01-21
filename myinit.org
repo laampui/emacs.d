@@ -12,9 +12,9 @@
 * PATH
 #+BEGIN_SRC emacs-lisp
 (setenv "anaconda3" "/home/lam/anaconda3/bin/")
-(setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.14.1/bin")
+(setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.0/bin")
 (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3")))
-(setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.14.1/bin")))
+(setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.0/bin")))
 (setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
 #+END_SRC
 * which key
