@@ -93,6 +93,13 @@
   :hook (after-init . doom-modeline-init))
 #+END_SRC
    
+** default-text-scale-mode
+#+BEGIN_SRC emacs-lisp
+(use-package default-text-scale
+  :ensure t
+  :init
+  (default-text-scale-mode))
+#+END_SRC
 ** etc
 #+BEGIN_SRC emacs-lisp
 (setq column-number-mode t)
