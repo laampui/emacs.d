@@ -83,7 +83,7 @@
 (use-package doom-themes
   :ensure t
   :config
-  (load-theme 'doom-one t))
+  (load-theme 'doom-tomorrow-night t))
 #+END_SRC
 ** doom-modeline
 #+BEGIN_SRC emacs-lisp 
@@ -191,8 +191,7 @@
   :ensure t
   :config
   ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
-  (global-flycheck-mode)
-  )
+  (global-flycheck-mode))
 #+END_SRC
 * flycheck-inline
 #+BEGIN_SRC emacs-lisp
@@ -595,12 +594,55 @@
   :config
   (push 'company-lsp company-backends))
 #+END_SRC
+* helpful
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :ensure t
+  :bind
+  ("C-h f" . helpful-callable)
+  ("C-h v" . helpful-variable)
+  ("C-h k" . helpful-key))
+#+END_SRC
 * display-time
 #+BEGIN_SRC emacs-lisp
 (setq display-time-format "%Y-%m-%d %H:%M:%S")
 (setq display-time-interval 1)
 (setq display-time-default-load-average nil)
 (display-time-mode)
+#+END_SRC
+* org-blog
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+      '(
+
+  ("org-notes"
+          ;; Path to your org files.
+          :base-directory "~/Documents/practices/myblog/org"
+          :base-extension "org"
+
+          ;; Path to your Jekyll project.
+          :publishing-directory "~/Documents/practices/myblog/jekyll/"
+          :recursive t
+          :publishing-function org-html-publish-to-html
+          :headline-levels 4
+          :html-extension "html"
+          :body-only t ;; Only export section between <body> </body>
+    )
+
+
+    ("org-static"
+          :base-directory "~/Documents/practices/myblog/org"
+          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+          :publishing-directory "~/Documents/practices/myblog/"
+          :recursive t
+          :publishing-function org-publish-attachment)
+
+    ("ian" :components ("org-notes" "org-static"))
+
+))
+(setq org-src-fontify-natively t)
+;(add-hook 'org-export-html-final-hook      (always))
+;(add-hook 'org-publish-after-export-hook   (when going through org-publish))
 #+END_SRC
 * etc
 #+BEGIN_SRC emacs-lisp
