@@ -49,7 +49,7 @@
   ;(setq pyim-default-scheme 'cangjie)
   (setq pyim-default-scheme 'xiaohe-shuangpin)
   (setq default-input-method "pyim")
-  (setq pyim-page-tooltip 'minibuffer)
+  (setq pyim-page-tooltip 'posframe)
 )
 #+END_SRC
 * neotree
@@ -648,7 +648,8 @@
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   ;;(global-subword-mode 1)
-  (global-linum-mode t)
+  ;;(global-linum-mode t)
+  (global-display-line-numbers-mode t)
   (global-hl-line-mode t)
   (global-auto-revert-mode t)
   (delete-selection-mode 1)
