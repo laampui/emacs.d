@@ -562,10 +562,12 @@
   (setq python-shell-interpreter-args "-i --simple-prompt"))
 #+END_SRC
 * ein
+#+BEGIN_SRC emacs-lisp
 (use-package ein
   :ensure t
   :config
   (setq request-backend 'url-retrieve))
+#+END_SRC
 * markdown
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
