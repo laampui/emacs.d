@@ -530,7 +530,10 @@
 * indium
 #+BEGIN_SRC emacs-lisp
 (use-package indium
-  :ensure t)
+  :ensure t
+  :config
+  (setq indium-chrome-executable "google-chrome")
+  (setq indium-chrome-use-temporary-profile nil))
 #+END_SRC
 * rjsx-mode
 #+BEGIN_SRC emacs-lisp
