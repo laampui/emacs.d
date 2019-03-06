@@ -92,7 +92,6 @@
   :defer t
   :hook (after-init . doom-modeline-init))
 #+END_SRC
-   
 ** default-text-scale-mode
 #+BEGIN_SRC emacs-lisp
 (use-package default-text-scale
