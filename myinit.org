@@ -16,6 +16,7 @@
 (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3")))
 (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.0/bin")))
 (setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
+(setq exec-path (append exec-path '("/home/lam/.yarn/bin/")))
 #+END_SRC
 * which key
 #+BEGIN_SRC emacs-lisp :tangle yes
