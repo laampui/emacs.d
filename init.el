@@ -4,6 +4,11 @@
 ;; You may delete these explanatory comments.
 (setq gc-cons-threshold (* 128 1024 1024 ))
 (require 'package)
+(package-initialize)
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -8,11 +8,7 @@
 #+END_SRC
 * package init
 #+BEGIN_SRC emacs-lisp
-(package-initialize)
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+
 #+END_SRC
 * some keybindings
 #+BEGIN_SRC emacs-lisp
@@ -23,9 +19,9 @@
 * PATH
 #+BEGIN_SRC emacs-lisp
 (setenv "anaconda3" "/home/lam/anaconda3/bin/")
-(setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.0/bin")
+(setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.3/bin")
 (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3")))
-(setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.0/bin")))
+(setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.3/bin")))
 (setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
 (setq exec-path (append exec-path '("/home/lam/.yarn/bin/")))
 #+END_SRC
