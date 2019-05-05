@@ -662,7 +662,7 @@
   (setq frame-title-format "%f")
   (treemacs)
   ;;(toggle-frame-maximized)
-  ;;(menu-bar-mode -1)
+  (menu-bar-mode -1)
   ;;(desktop-save-mode t)
   ;;(electric-pair-mode t)
 #+END_SRC
