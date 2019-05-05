@@ -1,7 +1,18 @@
 #+STARTUP: overview
 * repo
-#+BEGIN_SRC emacs-lisp :tangle yes
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+#+BEGIN_SRC emacs-lisp
+(setq package-enable-at-startup nil)
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+#+END_SRC
+* package init
+#+BEGIN_SRC emacs-lisp
+(package-initialize)
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+	(package-refresh-contents)
+	(package-install 'use-package))
 #+END_SRC
 * some keybindings
 #+BEGIN_SRC emacs-lisp
@@ -665,4 +676,10 @@
   (menu-bar-mode -1)
   ;;(desktop-save-mode t)
   ;;(electric-pair-mode t)
+  (setq-default indent-tabs-mode nil)
+  (setq-default tab-width 4)
+  (setq inhibit-splash-screen t)
+  (setq make-backup-files nil)
+  (setq er--show-expansion-message t)
+  (setq create-lockfiles nil)
 #+END_SRC

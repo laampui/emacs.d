@@ -4,37 +4,7 @@
 ;; You may delete these explanatory comments.
 (setq gc-cons-threshold (* 128 1024 1024 ))
 (require 'package)
-(setq package-enable-at-startup nil)
-;;(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-;;                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")
-                         ))
-
-(package-initialize)
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
 (org-babel-load-file (expand-file-name "~/.emacs.d/myinit.org"))
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq inhibit-splash-screen t)
-(setq make-backup-files nil)
-(setq er--show-expansion-message t)
-(setq create-lockfiles nil)
-;;高亮括号
-;;(show-paren-mode t)
-;;proxy
-(setq url-proxy-services
-      '(("no_proxy" . "^\\(localhost\\|10.*\\)")
-       ("http" . "127.0.0.1:12333")
-       ("https" . "127.0.0.1:12333")
-        ))
-;(setq url-gateway-method 'socks)
-;(setq socks-server '("Default server" "127.0.0.1" 1080 5))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -104,24 +74,3 @@
                            charset
                            (font-spec :family "Noto Serif CJK SC Medium"))) )
       (t 0))
-;; 配置 emacsclient -c 启动下的字体
-;; (setq default-frame-alist '((font . "Fira Mono-11")))
-;(define-globalized-minor-mode
-;  global-text-scale-mode
-;  text-scale-mode
-;  (lambda () (text-scale-mode 1)))
-;
-;(defun global-text-scale-adjust (inc) (interactive)
-;       (text-scale-set 1)
-;       (kill-local-variable 'text-scale-mode-amount)
-;       (setq-default text-scale-mode-amount (+ text-scale-mode-amount inc))
-;       (global-text-scale-mode 1)
-;       )
-;(global-set-key (kbd "C-x C-0")
-;                '(lambda () (interactive)
-;                   (global-text-scale-adjust (- text-scale-mode-amount))
-;                   (global-text-scale-mode -1)))
-;(global-set-key (kbd "C-x C-+")
-;                '(lambda () (interactive) (global-text-scale-adjust 1)))
-;(global-set-key (kbd "C-x C--")
-;                '(lambda () (interactive) (global-text-scale-adjust -1)))
