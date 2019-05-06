@@ -1,32 +1,28 @@
 #+STARTUP: overview
 * repo
 #+BEGIN_SRC emacs-lisp
-(setq package-enable-at-startup nil)
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                           ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 #+END_SRC
-* package init
+* keybindings
 #+BEGIN_SRC emacs-lisp
-
-#+END_SRC
-* some keybindings
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
-(global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
-(global-set-key (kbd "RET") 'newline-and-indent)
+  (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
+  (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
+  (global-set-key (kbd "RET") 'newline-and-indent)
 #+END_SRC
 * PATH
 #+BEGIN_SRC emacs-lisp
-(setenv "anaconda3" "/home/lam/anaconda3/bin/")
-(setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.3/bin")
-(setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3")))
-(setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.3/bin")))
-(setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
-(setq exec-path (append exec-path '("/home/lam/.yarn/bin/")))
+  (setenv "anaconda3" "/home/lam/anaconda3/bin/")
+  (setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.3/bin")
+  (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3")))
+  (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.3/bin")))
+  (setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
+  (setq exec-path (append exec-path '("/home/lam/.yarn/bin/")))
 #+END_SRC
 * which key
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
 (use-package which-key
   :ensure t
   :defer 5
@@ -622,40 +618,6 @@
 (setq display-time-interval 1)
 (setq display-time-default-load-average nil)
 (display-time-mode)
-#+END_SRC
-* org-blog
-#+BEGIN_SRC emacs-lisp
-(setq org-publish-project-alist
-      '(
-
-  ("org-notes"
-          ;; Path to your org files.
-          :base-directory "~/Documents/practices/myblog/org"
-          :base-extension "org"
-
-          ;; Path to your Jekyll project.
-          :publishing-directory "~/Documents/practices/myblog/jekyll/"
-          :recursive t
-          :publishing-function org-html-publish-to-html
-          :headline-levels 4
-          :html-extension "html"
-          :body-only t ;; Only export section between <body> </body>
-    )
-
-
-    ("org-static"
-          :base-directory "~/Documents/practices/myblog/org"
-          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
-          :publishing-directory "~/Documents/practices/myblog/"
-          :recursive t
-          :publishing-function org-publish-attachment)
-
-    ("ian" :components ("org-notes" "org-static"))
-
-))
-(setq org-src-fontify-natively t)
-;(add-hook 'org-export-html-final-hook      (always))
-;(add-hook 'org-publish-after-export-hook   (when going through org-publish))
 #+END_SRC
 * etc
 #+BEGIN_SRC emacs-lisp
