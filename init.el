@@ -5,6 +5,10 @@
 (setq gc-cons-threshold (* 128 1024 1024 ))
 (require 'package)
 (package-initialize)
+(setq package-enable-at-startup nil)
+  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)

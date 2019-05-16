@@ -1,11 +1,4 @@
 #+STARTUP: overview
-* repo
-#+BEGIN_SRC emacs-lisp
-  (setq package-enable-at-startup nil)
-  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
-#+END_SRC
 * keybindings
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
