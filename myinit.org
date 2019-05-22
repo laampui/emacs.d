@@ -552,7 +552,11 @@
   ;;(setq winum-auto-setup-mode-line t)
   (winum-mode))
 #+END_SRC
-
+* wind-move
+#+BEGIN_SRC emacs-lisp
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+#+END_SRC
 * elpy
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
