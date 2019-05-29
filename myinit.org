@@ -262,7 +262,8 @@
         python-mode
         markdown-mode
         package-menu-mode
-        org-mode))
+        org-mode
+        php-mode))
 #+END_SRC
 * projectile
 #+BEGIN_SRC emacs-lisp
@@ -543,6 +544,11 @@
 #+BEGIN_SRC emacs-lisp
 ;;(use-package ng2-mode
 ;;  :ensure t)
+#+END_SRC
+* php-mode
+#+BEGIN_SRC emacs-lisp
+(use-package php-mode
+  :ensure t)
 #+END_SRC
 * winum
 #+BEGIN_SRC emacs-lisp
