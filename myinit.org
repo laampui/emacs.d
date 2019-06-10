@@ -111,15 +111,14 @@
 (use-package smartparens
   :ensure t
   :diminish smartparens-mode
-  :config
+  :init
   (global-highlight-parentheses-mode t)
-  (progn
-    (require 'smartparens-config)
-    (smartparens-global-mode 1))
+  (smartparens-global-strict-mode t)
+  :config
   (defun my-fancy-newline ()
   (interactive)
   (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
-                             (and (looking-back ">") (looking-at "<"))
+                             (and (looking-back "<") (looking-at ">"))
                              (and (looking-back "(") (looking-at ")"))
                              (and (looking-back "\\[") (looking-at "\\]")))))
     (newline)
@@ -128,7 +127,11 @@
         (newline)
         (indent-for-tab-command)))
     (indent-for-tab-command)))
-  (global-set-key (kbd "RET") 'my-fancy-newline))
+  (global-set-key (kbd "RET") 'my-fancy-newline)
+  :bind(
+  ("C-M-a" . sp-beginning-of-sexp)
+  ("C-M-e" . sp-end-of-sexp))
+)
 #+END_SRC
 * highlight-parentheses
 #+BEGIN_SRC emacs-lisp
