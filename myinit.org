@@ -647,4 +647,5 @@
   (setq make-backup-files nil)
   (setq er--show-expansion-message t)
   (setq create-lockfiles nil)
+  (setq replace-lax-whitespace t)
 #+END_SRC
