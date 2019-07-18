@@ -113,7 +113,7 @@
   :diminish smartparens-mode
   :init
   (global-highlight-parentheses-mode t)
-  (smartparens-global-strict-mode t)
+  (smartparens-global-mode t)
   :config
   (defun my-fancy-newline ()
   (interactive)
