@@ -6,9 +6,9 @@
 (require 'package)
 (package-initialize)
 (setq package-enable-at-startup nil)
-  (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                          ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+  (setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                          ("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
@@ -38,7 +38,7 @@
 ;;字体设置
 (cond ((display-graphic-p)       
        (set-face-attribute 'default nil
-                           :font "Fira Mono-11")
+                           :font "fira code-11")
        (dolist (charset '(kana han symbol cjk-misc bopomofo))
          (set-fontset-font (frame-parameter nil 'font)
                            charset

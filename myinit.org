@@ -8,10 +8,10 @@
 * PATH
 #+BEGIN_SRC emacs-lisp
   (setenv "anaconda3" "/home/lam/anaconda3/bin/")
-  (setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.15.3/bin")
+  (setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v10.16.0/bin")
   (setenv "yarn" "/home/lam/.yarn/bin/")
   (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
-  (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.15.3/bin")))
+  (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v10.16.0/bin")))
   (setq exec-path (append exec-path '("/home/lam/anaconda3/bin/")))
   (setq exec-path (append exec-path '("/home/lam/.yarn/bin/")))
 #+END_SRC
@@ -397,11 +397,11 @@
 #+END_SRC
 * tern-mode
 #+BEGIN_SRC emacs-lisp
-(use-package tern-mode
-  :ensure tern
-  :init
-  (setq tern-command (append tern-command '("--no-port-file")))
-  :hook(js2-mode javascript-mode web-mode rjsx-mode))
+;;(use-package tern-mode
+;;  :ensure tern
+;;  :init
+;;  (setq tern-command (append tern-command '("--no-port-file")))
+;;  :hook(js2-mode javascript-mode web-mode rjsx-mode))
 #+END_SRC
 * tern-auto-complete
 #+BEGIN_SRC emacs-lisp
@@ -665,6 +665,14 @@
 (setq display-time-default-load-average nil)
 (display-time-mode)
 #+END_SRC
+* easy-hugo
+#+BEGIN_SRC emacs-lisp
+(use-package easy-hugo
+  :ensure t
+  :init
+  (setq easy-hugo-basedir "~/Documents/blog/")
+)
+#+END_SRC
 * etc
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
@@ -674,7 +682,7 @@
   (global-hl-line-mode t)
   (global-auto-revert-mode t)
   (delete-selection-mode 1)
-  (setq frame-title-format "%f")
+  (setq frame-title-format "%b")
   (treemacs)
   ;;(toggle-frame-maximized)
   (menu-bar-mode -1)
