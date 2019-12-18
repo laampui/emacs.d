@@ -279,7 +279,7 @@
   ("C-c p" . projectile-command-map)
   :config
   (projectile-mode +1)
-  (setq projectile-completion-system 'default))
+  (setq projectile-completion-system 'ivy))
 #+END_SRC
 * swiper
 #+BEGIN_SRC emacs-lisp
@@ -292,7 +292,7 @@
 (use-package rg
   :ensure t
   :config
-  (rg-enable-default-bindings "\M-s"))
+  (rg-enable-default-bindings))
 #+END_SRC
 * counsel
 #+BEGIN_SRC emacs-lisp
