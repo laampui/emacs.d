@@ -159,6 +159,7 @@
   (setq web-mode-script-padding 0)
   (setq web-mode-style-padding 0)
   (setq web-mode-enable-auto-indentation nil)
+  (setq web-mode-enable-auto-pairing nil)
   (flycheck-add-mode  'javascript-eslint 'web-mode)
   ;(flycheck-add-mode  'html-tidy 'web-mode)
   :mode (("\\.vue\\'" . web-mode)
