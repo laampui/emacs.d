@@ -422,8 +422,9 @@
 #+BEGIN_SRC emacs-lisp
 (use-package avy
   :ensure t
-  :bind (("C-:" . avy-goto-char)
-         ("M-g g" . avy-goto-line)))
+  :bind (("M-g c" . avy-goto-char-timer)
+         ("M-g g" . avy-goto-line)
+         ("C-c C-k" . avy-kill-whole-line)))
 #+END_SRC
 * undo-tree
 #+BEGIN_SRC emacs-lisp
@@ -678,10 +679,32 @@
   (setq easy-hugo-basedir "~/Documents/blog/")
 )
 #+END_SRC
+* pdf-tools
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :mode (("\\.pdf\\'" . pdf-view-mode)))
+#+end_src
+* emacs-application-framework
+#+begin_src emacs-lisp
+(use-package eaf
+  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+  :custom
+  (eaf-find-alternate-file-in-dired t)
+  :config
+  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+  (setq eaf-proxy-type "socks5")
+  (setq eaf-proxy-host "127.0.0.1")
+  (setq eaf-proxy-port "1080")
+)
+#+end_src
 * etc
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
-  ;;(global-subword-mode 1)
+  (global-subword-mode 1)
   ;;(global-linum-mode t)
   (global-display-line-numbers-mode t)
   (global-hl-line-mode t)
