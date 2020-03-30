@@ -7,13 +7,13 @@
 #+END_SRC
 * PATH
 #+BEGIN_SRC emacs-lisp
-  (setenv "anaconda3" "$HOME/anaconda3/bin/")
-  (setenv "NVM_BIN" "$HOME/.nvm/versions/node/v12.16.1/bin")
-  (setenv "yarn" "$HOME/.yarn/bin/")
+  (setenv "anaconda3" "/home/okktee/anaconda3/bin/")
+  (setenv "NVM_BIN" "/home/okktee/.nvm/versions/node/v12.16.1/bin")
+  (setenv "yarn" "/home/okktee/.yarn/bin/")
   (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
-  (setq exec-path (append exec-path '("$HOME/.nvm/versions/node/v12.16.1/bin")))
-  (setq exec-path (append exec-path '("$HOME/anaconda3/bin/")))
-  (setq exec-path (append exec-path '("$HOME/.yarn/bin/")))
+  (setq exec-path (append exec-path '("/home/okktee/.nvm/versions/node/v12.16.1/bin")))
+  (setq exec-path (append exec-path '("/home/okktee/anaconda3/bin/")))
+  (setq exec-path (append exec-path '("/home/okktee/.yarn/bin/")))
 #+END_SRC
 * which key
 #+BEGIN_SRC emacs-lisp
