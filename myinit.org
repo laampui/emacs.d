@@ -350,12 +350,12 @@
 #+END_SRC
 * company-tern
 #+BEGIN_SRC emacs-lisp
-(use-package company-tern
-  :ensure t
-  :init
-  (add-to-list 'company-backends 'company-tern)
-  :config
-  (setq company-tern-meta-as-single-line nil))
+;(use-package company-tern
+;  :ensure t
+;  :init
+;  (add-to-list 'company-backends 'company-tern)
+;  :config
+;  (setq company-tern-meta-as-single-line nil))
 #+END_SRC
 * company-tabnine
 #+begin_src emacs-lisp
@@ -687,19 +687,26 @@
 #+end_src
 * emacs-application-framework
 #+begin_src emacs-lisp
-(use-package eaf
-  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
-  :custom
-  (eaf-find-alternate-file-in-dired t)
+;(use-package eaf
+;  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+;  :custom
+;  (eaf-find-alternate-file-in-dired t)
+;  :config
+;  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
+;  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
+;  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+;  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+;  (setq eaf-proxy-type "socks5")
+;  (setq eaf-proxy-host "127.0.0.1")
+;  (setq eaf-proxy-port "1080")
+;)
+#+end_src
+* move-text
+#+begin_src emacs-lisp
+(use-package move-text
+  :ensure t
   :config
-  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-  (setq eaf-proxy-type "socks5")
-  (setq eaf-proxy-host "127.0.0.1")
-  (setq eaf-proxy-port "1080")
-)
+  (move-text-default-bindings))
 #+end_src
 * etc
 #+BEGIN_SRC emacs-lisp

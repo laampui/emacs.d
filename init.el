@@ -6,9 +6,9 @@
 (require 'package)
 (package-initialize)
 (setq package-enable-at-startup nil)
-  (setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                          ("org" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+  (setq package-archives '(("gnu"   . "https://elpa.emacs-china.org/gnu/")
+                          ("org" . "https://elpa.emacs-china.org/org/")
+                         ("melpa" . "https://elpa.emacs-china.org/melpa/")))
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
 	(package-refresh-contents)
