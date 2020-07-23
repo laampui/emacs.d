@@ -82,7 +82,7 @@
 (use-package doom-themes
   :ensure t
   :config
-  (load-theme 'doom-tomorrow-night t))
+  (load-theme 'doom-one t))
 #+END_SRC
 ** doom-modeline
 #+BEGIN_SRC emacs-lisp 
@@ -101,7 +101,7 @@
 ** etc
 #+BEGIN_SRC emacs-lisp
 (setq column-number-mode t)
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 (setq-default blink-cursor-blinks 0)
 (tool-bar-mode -1)
 (toggle-scroll-bar -1)
@@ -151,15 +151,14 @@
   :config
   (setq web-mode-enable-current-element-highlight t)
   (setq web-mode-enable-current-column-highlight t)
-  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-auto-pairing nil)
+  (setq web-mode-enable-auto-indentation nil)
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-code-indent-offset 4)
   (setq web-mode-script-padding 0)
   (setq web-mode-style-padding 0)
-  (setq web-mode-enable-auto-indentation nil)
-  (setq web-mode-enable-auto-pairing nil)
   (flycheck-add-mode  'javascript-eslint 'web-mode)
   ;(flycheck-add-mode  'html-tidy 'web-mode)
   :mode (("\\.vue\\'" . web-mode)
@@ -211,7 +210,8 @@
   :ensure t
   :demand
   :bind (("C->" . mc/mark-next-like-this-word)
-         ("C-<" . mc/mark-all-dwim)
+         ("C-c m c" . mc/edit-beginnings-of-lines)
+         ("C-c m d" . mc/mark-all-dwim)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click))
   :config
   (add-to-list 'mc/cmds-to-run-once 'mc/toggle-cursor-at-point)
@@ -480,9 +480,9 @@
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode t)
     (pcase (cons (not (null (executable-find "git")))
-                 (not (null (treemacs--find-python3))))
+                 (not (null treemacs-python-executable)))
       (`(t . t)
-       (treemacs-git-mode 'extended))
+       (treemacs-git-mode 'deferred))
       (`(t . _)
        (treemacs-git-mode 'simple))))
   :bind
