@@ -198,11 +198,6 @@
   (setq helm-recentf-fuzzy-match t)
   (helm-mode 1))
 #+END_SRC
-* helm-ag
-#+BEGIN_SRC emacs-lisp
-(use-package helm-ag
-  :ensure t)
-#+END_SRC
 * flycheck
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
@@ -237,16 +232,6 @@
 (use-package emmet-mode
   :ensure t
   :hook(web-mode sgml-mode rjsx-mode))
-#+END_SRC
-* origami
-#+BEGIN_SRC emacs-lisp
-(use-package origami
-  :ensure t
-  :bind
-  (;("C-, " . origami-toggle-node)
-  ("C-, " . origami-toggle-node))
-  :config
-  (global-origami-mode t))
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp
@@ -415,24 +400,6 @@
 ;;  (setq ac-fuzzy-enable t)
 ;;  (setq ac-quick-help-delay 0)
 ;;  (global-auto-complete-mode t))
-#+END_SRC
-* tern-mode
-#+BEGIN_SRC emacs-lisp
-;;(use-package tern-mode
-;;  :ensure tern
-;;  :init
-;;  (setq tern-command (append tern-command '("--no-port-file")))
-;;  :hook(js2-mode javascript-mode web-mode rjsx-mode))
-#+END_SRC
-* tern-auto-complete
-#+BEGIN_SRC emacs-lisp
-;;(use-package tern-auto-complete
-;;  :ensure t
-;;  :config
-;;  (eval-after-load 'tern
-;;   '(progn
-;;      (require 'tern-auto-complete)
-;;      (tern-ac-setup))))
 #+END_SRC
 * avy
 #+BEGIN_SRC emacs-lisp
