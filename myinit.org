@@ -67,6 +67,18 @@
 (use-package all-the-icons
   :ensure t)
 #+END_SRC
+** all-the-icons-ivy-rich
+#+begin_src emacs-lisp
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
+#+end_src
+** all-the-icons-ibuffer
+#+begin_src emacs-lisp
+(use-package all-the-icons-ibuffer
+  :ensure t
+  :init (all-the-icons-ibuffer-mode 1))
+#+end_src
 ** spaceline
 #+BEGIN_SRC emacs-lisp
 ;;(use-package spaceline
@@ -174,9 +186,10 @@
   :ensure t
   :defer t
   :bind
-  (("M-x" . helm-M-x)
+  (;("M-x" . helm-M-x)
    ("C-x C-b" . helm-mini)
-   ("C-x C-f" . helm-find-files))
+   ;("C-x C-f" . helm-find-files)
+  )
   :config
   (setq helm-mode-fuzzy-match t)
   (setq helm-M-x-fuzzy-match t)
@@ -209,7 +222,8 @@
 (use-package multiple-cursors
   :ensure t
   :demand
-  :bind (("C->" . mc/mark-next-like-this-word)
+  :bind (("C-<" . mc/mark-previous-like-this-word)
+         ("C->" . mc/mark-next-like-this-word)
          ("C-c m c" . mc/edit-beginnings-of-lines)
          ("C-c m d" . mc/mark-all-dwim)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click))
@@ -277,8 +291,18 @@
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
   :ensure t
-  :bind("C-s" . swiper))
+  :bind
+  ("C-s" . swiper)
+  ("C-x b" . ivy-switch-buffer))
 #+END_SRC
+* ivy-rich
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :ensure t
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode 1))
+#+end_src
 * rg
 #+BEGIN_SRC emacs-lisp
 (use-package rg
@@ -290,9 +314,11 @@
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
   :ensure t
-  ;:bind
-  ;("M-x" . 'counsel-M-x)
-)
+  :bind
+  ("M-x" . 'counsel-M-x)
+  ("C-x C-f" . 'counsel-find-file)
+  :config
+  (setq ivy-use-virtual-buffers t))
 #+END_SRC
 * dumb-jump
 #+BEGIN_SRC emacs-lisp
@@ -578,16 +604,6 @@
   :ensure t
   :mode ("\\.js\\'" . rjsx-mode))
 #+END_SRC
-* ng2-mode
-#+BEGIN_SRC emacs-lisp
-;;(use-package ng2-mode
-;;  :ensure t)
-#+END_SRC
-* php-mode
-#+BEGIN_SRC emacs-lisp
-(use-package php-mode
-  :ensure t)
-#+END_SRC
 * winum
 #+BEGIN_SRC emacs-lisp
 (use-package winum
@@ -697,6 +713,31 @@
   :ensure t
   :config
   (move-text-default-bindings))
+#+end_src
+* duplicate-line
+#+begin_src emacs-lisp
+(defun duplicate-line-or-region (&optional n)
+      "Duplicate current line, or region if active.
+    With argument N, make N copies.
+    With negative N, comment out original line and use the absolute value."
+      (interactive "*p")
+      (let ((use-region (use-region-p)))
+        (save-excursion
+          (let ((text (if use-region        ;Get region if active, otherwise line
+                          (buffer-substring (region-beginning) (region-end))
+                        (prog1 (thing-at-point 'line)
+                          (end-of-line)
+                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                              (newline))))))
+            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+              (insert text))))
+        (if use-region nil                  ;Only if we're working with a line (not a region)
+          (let ((pos (- (point) (line-beginning-position)))) ;Save column
+            (if (> 0 n)                             ;Comment out original with negative arg
+                (comment-region (line-beginning-position) (line-end-position)))
+            (forward-line 1)
+            (forward-char pos)))))
+(global-set-key (kbd "M-S-<down>") 'duplicate-line-or-region)
 #+end_src
 * etc
 #+BEGIN_SRC emacs-lisp
