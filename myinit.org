@@ -656,7 +656,12 @@
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :ensure t
-  :mode (("\\.pdf\\'" . pdf-view-mode)))
+  :mode (("\\.pdf\\'" . pdf-view-mode))
+  :config
+  (pdf-tools-install)
+  ;; use normal isearch
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
+)
 #+end_src
 * emacs-application-framework
 #+begin_src emacs-lisp
