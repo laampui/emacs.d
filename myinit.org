@@ -110,6 +110,13 @@
   :init
   (default-text-scale-mode))
 #+END_SRC
+** highlight-indent-guides
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode)
+)
+#+end_src
 ** etc
 #+BEGIN_SRC emacs-lisp
 (setq column-number-mode t)
@@ -649,8 +656,7 @@
 (use-package easy-hugo
   :ensure t
   :init
-  (setq easy-hugo-basedir "~/Documents/blog/")
-)
+  (setq easy-hugo-basedir "~/Documents/blog/"))
 #+END_SRC
 * pdf-tools
 #+begin_src emacs-lisp
@@ -660,8 +666,7 @@
   :config
   (pdf-tools-install)
   ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)
-)
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
 #+end_src
 * emacs-application-framework
 #+begin_src emacs-lisp
