@@ -38,6 +38,7 @@
 ;;字体设置
 (cond ((display-graphic-p)       
        (set-face-attribute 'default nil
+                           :weight 'bold
                            :font "fira code-11")
        (dolist (charset '(kana han symbol cjk-misc bopomofo))
          (set-fontset-font (frame-parameter nil 'font)

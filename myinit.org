@@ -114,8 +114,7 @@
 #+begin_src emacs-lisp
 (use-package highlight-indent-guides
   :ensure t
-  :hook (prog-mode . highlight-indent-guides-mode)
-)
+  :hook (prog-mode . highlight-indent-guides-mode))
 #+end_src
 ** etc
 #+BEGIN_SRC emacs-lisp
@@ -207,7 +206,9 @@
   :ensure t
   :config
   ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  (with-eval-after-load 'rust-mode
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
 #+END_SRC
 * flycheck-inline
 #+BEGIN_SRC emacs-lisp

@@ -3,4 +3,7 @@ recentf
 myinit.el
 auto-save-list
 elpa
+elpy
 pyim
+rust-playground
+transient
