@@ -1,25 +1,21 @@
 #+STARTUP: overview
 * all the icons
 #+BEGIN_SRC emacs-lisp
-(use-package all-the-icons
-  :ensure t)
+(use-package all-the-icons)
 #+END_SRC
 * all-the-icons-ibuffer
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
-  :ensure t
   :init (all-the-icons-ibuffer-mode 1))
 #+end_src
 * all-the-icons-ivy-rich
 #+begin_src emacs-lisp
 (use-package all-the-icons-ivy-rich
-  :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
 #+end_src
 * auto-complete
 #+BEGIN_SRC emacs-lisp
 ;;(use-package auto-complete
-;;  :ensure t
 ;;  :commands auto-complete-mode
 ;;  :init
 ;;  (progn
@@ -29,17 +25,16 @@
 ;;   ("C-n" . ac-next)
 ;;   ("C-p" . ac-previous))
 ;;  :config
-;;  (setq ac-use-menu-map t)
-;;  (setq ac-auto-show-menu 0)
-;;  (setq ac-auto-start 1)
-;;  (setq ac-fuzzy-enable t)
-;;  (setq ac-quick-help-delay 0)
+;;  (setq ac-use-menu-map     t
+;;        ac-auto-show-menu   0
+;;        ac-auto-start       1
+;;        ac-fuzzy-enable     t
+;;        ac-quick-help-delay 0)
 ;;  (global-auto-complete-mode t))
 #+END_SRC
 * avy
 #+BEGIN_SRC emacs-lisp
 (use-package avy
-  :ensure t
   :bind (("M-g c" . avy-goto-char-timer)
          ("M-g g" . avy-goto-line)
          ("C-c C-k" . avy-kill-whole-line)))
@@ -47,15 +42,12 @@
 * beacon
 #+BEGIN_SRC emacs-lisp
 (use-package beacon
-  :ensure t
   :config
   (beacon-mode 1))
 #+END_SRC
-
 * company
 #+BEGIN_SRC emacs-lisp
 (use-package company
-  :ensure t
   :config
   (setq company-idle-delay                0
         company-show-numbers              t
@@ -74,7 +66,6 @@
 * company-quickhelp
 #+BEGIN_SRC emacs-lisp
 (use-package company-quickhelp
-  :ensure t
   :config
   (company-quickhelp-mode)
   (setq company-quickhelp-delay 0))
@@ -82,7 +73,6 @@
 * company-tern
 #+BEGIN_SRC emacs-lisp
 ;(use-package company-tern
-;  :ensure t
 ;  :init
 ;  (add-to-list 'company-backends 'company-tern)
 ;  :config
@@ -91,7 +81,6 @@
 * company-tabnine
 #+begin_src emacs-lisp
 (use-package company-tabnine
-  :ensure t
   :init
   (push 'company-tabnine company-backends)
   ;;(add-to-list 'company-backends #'company-tabnine)
@@ -108,13 +97,11 @@
 * company-box
 #+begin_src emacs-lisp
 ;;(use-package company-box
-;;  :ensure t
 ;;  :hook (company-mode . company-box-mode))
 #+end_src
 * counsel
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
-  :ensure t
   :bind
   ;("M-x" . 'counsel-M-x)
   ;("C-x C-f" . 'counsel-find-file)
@@ -124,7 +111,6 @@
 * default-text-scale-mode
 #+BEGIN_SRC emacs-lisp
 (use-package default-text-scale
-  :ensure t
   :init
   (default-text-scale-mode))
 #+END_SRC
@@ -138,21 +124,18 @@
 * doom-themes
 #+BEGIN_SRC emacs-lisp
 (use-package doom-themes
-  :ensure t
   :config
   (load-theme 'doom-one t))
 #+END_SRC
 * doom-modeline
 #+BEGIN_SRC emacs-lisp 
 (use-package doom-modeline
-  :ensure t
   :defer t
   :hook (after-init . doom-modeline-init))
 #+END_SRC
 * dumb-jump
 #+BEGIN_SRC emacs-lisp
 (use-package dumb-jump
-  :ensure t
   :bind (("M-g o" . dumb-jump-go-other-window)
          ("M-g j" . dumb-jump-go)
          ("M-g i" . dumb-jump-go-prompt)
@@ -192,21 +175,18 @@
 * easy-hugo
 #+BEGIN_SRC emacs-lisp
 (use-package easy-hugo
-  :ensure t
   :init
   (setq easy-hugo-basedir "~/Documents/blog/"))
 #+END_SRC
 * ein
 #+BEGIN_SRC emacs-lisp
 (use-package ein
-  :ensure t
   :config
   (setq request-backend 'url-retrieve))
 #+END_SRC
 * elpy
 #+BEGIN_SRC emacs-lisp
 (use-package elpy
-  :ensure t
   :config
   (elpy-enable)
   (setq python-shell-interpreter "/home/lam/anaconda3/bin/ipython"
@@ -232,20 +212,17 @@
 * emmet-mode
 #+BEGIN_SRC emacs-lisp
 (use-package emmet-mode
-  :ensure t
   :hook(web-mode sgml-mode rjsx-mode))
 #+END_SRC
 * expand-region
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
-  :ensure t
   :bind ("C-@" . er/expand-region)
   :config (setq expand-region-fast-keys-enabled nil))
 #+END_SRC
 * flycheck
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
-  :ensure t
   :config
   ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
   (global-flycheck-mode)
@@ -255,24 +232,20 @@
 * flycheck-inline
 #+BEGIN_SRC emacs-lisp
 ;;(use-package flycheck-inline
-;;  :ensure t
 ;;  :hook(flycheck-mode))
 #+END_SRC
 * flycheck-rust
 #+begin_src emacs-lisp
-(use-package flycheck-rust
-  :ensure t)
+(use-package flycheck-rust)
 #+end_src
 * highlight-indent-guides
 #+begin_src emacs-lisp
 (use-package highlight-indent-guides
-  :ensure t
   :hook (prog-mode . highlight-indent-guides-mode))
 #+end_src
 * highlight-parentheses
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-parentheses
-  :ensure t
   :config
   (setq hl-paren-background-colors '("#00bfff")
         hl-sexp-background-color   '("#1c1f26")
@@ -281,7 +254,6 @@
 * helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
-  :ensure t
   :bind
   ("M-x" . helm-M-x)
   ("C-x C-b" . helm-mini)
@@ -295,16 +267,18 @@
 * helpful
 #+BEGIN_SRC emacs-lisp
 (use-package helpful
-  :ensure t
   :bind
   ("C-h f" . helpful-callable)
   ("C-h v" . helpful-variable)
   ("C-h k" . helpful-key))
 #+END_SRC
+* iedit
+#+begin_src emacs-lisp
+(use-package iedit)
+#+end_src
 * indium
 #+BEGIN_SRC emacs-lisp
 (use-package indium
-  :ensure t
   :config
   (setq indium-chrome-executable "google-chrome"
         indium-chrome-use-temporary-profile nil))
@@ -312,7 +286,6 @@
 * ivy-rich
 #+begin_src emacs-lisp
 (use-package ivy-rich
-  :ensure t
   :config
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   (ivy-rich-mode 1))
@@ -320,11 +293,10 @@
 * js2-mode
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode
-  :ensure t
   :config
-  (setq js-indent-level 2)
-  (setq typescript-indent-level 2)
-  (setq js2-strict-missing-semi-warning nil)
+  (setq js-indent-level                 4
+        typescript-indent-level         4
+        js2-strict-missing-semi-warning nil)
   (defun my/use-eslint-from-node-modules ()
     (let* ((root (locate-dominating-file
                   (or (buffer-file-name) default-directory)
@@ -347,13 +319,10 @@
 * lsp-mode
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
-  :ensure t
   :commands lsp)
 (use-package lsp-ui
-  :ensure t
   :commands lsp-ui-mode)
 (use-package company-lsp
-  :ensure t
   :commands company-lsp
   :config
   (push 'company-lsp company-backends))
@@ -361,13 +330,11 @@
 * magit
 #+BEGIN_SRC emacs-lisp
 (use-package magit
-  :ensure t
   :bind("C-x g" . magit-status))
 #+END_SRC
 * markdown
 #+BEGIN_SRC emacs-lisp
 (use-package markdown-mode
-  :ensure t
   :config
   (setq markdown-command "/home/lam/anaconda3/bin/pandoc")
   :mode
@@ -375,26 +342,24 @@
 #+END_SRC
 * markdown-preview-mode
 #+BEGIN_SRC emacs-lisp
-(use-package markdown-preview-mode
-  :ensure t)
+(use-package markdown-preview-mode)
 #+END_SRC
 * move-text
 #+begin_src emacs-lisp
 (use-package move-text
-  :ensure t
   :config
   (move-text-default-bindings))
 #+end_src
 * multiple-cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors
-  :ensure t
   :demand
-  :bind (("C-<" . mc/mark-previous-like-this-word)
-         ("C->" . mc/mark-next-like-this-word)
-         ("C-c m c" . mc/edit-beginnings-of-lines)
-         ("C-c m d" . mc/mark-all-dwim)
-         ("C-S-<mouse-1>" . mc/add-cursor-on-click))
+  :bind
+  ("C-<"           . mc/mark-previous-like-this-word)
+  ("C->"           . mc/mark-next-like-this-word)
+  ("C-c m c"       . mc/edit-beginnings-of-lines)
+  ("C-c m d"       . mc/mark-all-dwim)
+  ("C-S-<mouse-1>" . mc/add-cursor-on-click)
   :config
   (setq mc/always-run-for-all 1)
   (add-to-list 'mc/cmds-to-run-once 'mc/toggle-cursor-at-point)
@@ -403,7 +368,6 @@
 * projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
-  :ensure t
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :config
@@ -413,9 +377,9 @@
 * PATH
 #+BEGIN_SRC emacs-lisp
   (setenv "anaconda3" "/home/lam/anaconda3/bin/")
-  (setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v12.18.3/bin")
-  (setenv "yarn" "/home/lam/.yarn/bin/")
-  (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
+  (setenv "NVM_BIN"  "/home/lam/.nvm/versions/node/v12.18.3/bin")
+  (setenv "yarn"     "/home/lam/.yarn/bin/")
+  (setenv "PATH"     (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
   (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v12.18.3/bin"))
         exec-path (append exec-path '("/home/lam/anaconda3/bin/"))
         exec-path (append exec-path '("/home/lam/.yarn/bin/")))
@@ -423,7 +387,6 @@
 * pdf-tools
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :ensure t
   :mode (("\\.pdf\\'" . pdf-view-mode))
   :config
   (pdf-tools-install)
@@ -432,13 +395,10 @@
 #+end_src
 * pyim
 #+BEGIN_SRC emacs-lisp
-(use-package posframe
-    :ensure t)
+(use-package posframe)
 (use-package pyim
-  :ensure t
   :config
   ;;(use-package pyim-cangjie5dict
-  ;;  :ensure t
   ;;  :config (pyim-cangjie5-enable))
   (use-package pyim-basedict
     :ensure nil
@@ -451,46 +411,40 @@
 #+END_SRC
 * rainbow-delimiters-mode
 #+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters-mode
-  :hook(prog-mode-hook))
+(use-package rainbow-delimiters
+  :hook(prog-mode-hook . rainbow-delimiters-mode))
 #+END_SRC
 * rjsx-mode
 #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
-  :ensure t
   :mode ("\\.js\\'" . rjsx-mode))
 #+END_SRC
 * rg
 #+BEGIN_SRC emacs-lisp
 (use-package rg
-  :ensure t
   :config
   (rg-enable-default-bindings))
 #+END_SRC
 * rust-mode
 #+begin_src emacs-lisp
-(use-package rust-mode
-  :ensure t)
+(use-package rust-mode)
 #+end_src
 * rust-playground
 #+begin_src emacs-lisp
-(use-package rust-playground
-  :ensure t)
+(use-package rust-playground)
 #+end_src
 * spaceline
 #+BEGIN_SRC emacs-lisp
 ;;(use-package spaceline
-;;  :ensure t
 ;;  :init(require 'spaceline)
 ;;  :config
-;;  (setq spaceline-window-numbers-unicode t)
-;;  (setq powerline-default-separator 'slant)
+;;  (setq spaceline-window-numbers-unicode t
+;;        powerline-default-separator      'slant)
 ;;  (spaceline-emacs-theme))
 #+END_SRC
 * smartparents
 #+BEGIN_SRC emacs-lisp
 (use-package smartparens
-  :ensure t
   :diminish smartparens-mode
   :init
   (global-highlight-parentheses-mode t)
@@ -511,31 +465,18 @@
   (global-set-key (kbd "RET") 'my-fancy-newline)
   :bind(
   ("C-M-a" . sp-beginning-of-sexp)
-  ("C-M-e" . sp-end-of-sexp))
-)
+  ("C-M-e" . sp-end-of-sexp)))
 #+END_SRC
 * solaire-mode
 #+BEGIN_SRC emacs-lisp
 (use-package solaire-mode
-  :ensure t
-  :hook(web-mode
-        sgml-mode
-        js-mode
-        js2-mode
-        javascript-mode
-        ng2-ts-mode
-        css-mode
-        emacs-lisp-mode
-        python-mode
-        markdown-mode
-        package-menu-mode
-        org-mode
-        php-mode))
+  :hook(prog-mode
+        text-mode
+        special-mode))
 #+END_SRC
 * swiper
 #+BEGIN_SRC emacs-lisp
 (use-package swiper
-  :ensure t
   :bind
   ("C-s" . swiper)
   ("C-x b" . ivy-switch-buffer))
@@ -543,7 +484,6 @@
 * symbol-overlay
 #+BEGIN_SRC emacs-lisp
 (use-package symbol-overlay
-  :ensure t
   :bind (:map symbol-overlay-mode-map
   ("M-h" . symbol-overlay-put)
   ("M-n" . symbol-overlay-jump-next)
@@ -553,7 +493,6 @@
 * treemacs
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs
-  :ensure t
   :defer t
 ;  :init
 ;  (with-eval-after-load 'winum
@@ -626,32 +565,27 @@
 * treemacs-projectile
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
+  :after treemacs projectile)
 #+END_SRC
 * treemacs-icon-dired
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs-icons-dired
   :after treemacs dired
-  :ensure t
   :config (treemacs-icons-dired-mode))
 #+END_SRC
 * treemacs-magit
 #+BEGIN_SRC emacs-lisp
 (use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+  :after treemacs magit)
 #+END_SRC
 * undo-tree
 #+BEGIN_SRC emacs-lisp
 (use-package undo-tree
-  :ensure t
   :init(global-undo-tree-mode))
 #+END_SRC
 * web-mode
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
-  :ensure t
   :defer 5
   :config
   (setq web-mode-enable-current-element-highlight t
@@ -676,7 +610,6 @@
 * which key
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
-  :ensure t
   :defer 5
   :diminish
   :commands which-key-mode
@@ -686,7 +619,6 @@
 * winum
 #+BEGIN_SRC emacs-lisp
 (use-package winum
-  :ensure t
   :config
   ;;(setq winum-auto-setup-mode-line t)
   (winum-mode))
@@ -699,14 +631,12 @@
 * yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
-  :ensure t
   :init
     (yas-global-mode 1))
 #+END_SRC
 * yasnippet-snippets
 #+BEGIN_SRC emacs-lisp
-(use-package yasnippet-snippets
-  :ensure t)
+(use-package yasnippet-snippets)
 #+END_SRC
 * misc
 #+BEGIN_SRC emacs-lisp
