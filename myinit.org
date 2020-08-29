@@ -400,16 +400,6 @@
   (add-to-list 'mc/cmds-to-run-once 'mc/toggle-cursor-at-point)
   (add-to-list 'mc/cmds-to-run-once 'multiple-cursors-mode))
 #+END_SRC
-* neotree
-#+BEGIN_SRC emacs-lisp
-;(use-package neotree
-;  :ensure t
-;  :bind([f8] . neotree-toggle)
-;  :config
-;  (setq neo-autorefresh nil)
-;  (setq neo-theme 'icons)
-;  (setq-default neo-show-hidden-files t))
-#+END_SRC
 * projectile
 #+BEGIN_SRC emacs-lisp
 (use-package projectile
