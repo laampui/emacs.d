@@ -1,343 +1,69 @@
 #+STARTUP: overview
-* keybindings
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
-  (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
-  (global-set-key (kbd "RET") 'newline-and-indent)
-#+END_SRC
-* PATH
-#+BEGIN_SRC emacs-lisp
-  (setenv "anaconda3" "/home/okktee/anaconda3/bin/")
-  (setenv "NVM_BIN" "/home/okktee/.nvm/versions/node/v12.16.1/bin")
-  (setenv "yarn" "/home/okktee/.yarn/bin/")
-  (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
-  (setq exec-path (append exec-path '("/home/okktee/.nvm/versions/node/v12.16.1/bin")))
-  (setq exec-path (append exec-path '("/home/okktee/anaconda3/bin/")))
-  (setq exec-path (append exec-path '("/home/okktee/.yarn/bin/")))
-#+END_SRC
-* which key
-#+BEGIN_SRC emacs-lisp
-(use-package which-key
-  :ensure t
-  :defer 5
-  :diminish
-  :commands which-key-mode
-  :config
-  (which-key-mode))
-#+END_SRC
-* expand-region
-#+BEGIN_SRC emacs-lisp
-(use-package expand-region
-  :ensure t
-  :bind ("C-@" . er/expand-region)
-  :config (setq expand-region-fast-keys-enabled nil))
-#+END_SRC
-* pyim
-#+BEGIN_SRC emacs-lisp
-(use-package posframe
-    :ensure t)
-(use-package pyim
-  :ensure t
-  :config
-  ;;(use-package pyim-cangjie5dict
-  ;;  :ensure t
-  ;;  :config (pyim-cangjie5-enable))
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
-  ;(setq pyim-dicts '((:file "/home/lam/Documents/pyim-bigdict.pyim")))
-  ;(setq pyim-default-scheme 'cangjie)
-  (setq pyim-default-scheme 'xiaohe-shuangpin)
-  (setq default-input-method "pyim")
-  (setq pyim-page-tooltip 'posframe))
-#+END_SRC
-* neotree
-#+BEGIN_SRC emacs-lisp
-;(use-package neotree
-;  :ensure t
-;  :bind([f8] . neotree-toggle)
-;  :config
-;  (setq neo-autorefresh nil)
-;  (setq neo-theme 'icons)
-;  (setq-default neo-show-hidden-files t))
-#+END_SRC
-* UI
-** all the icons
+* all the icons
 #+BEGIN_SRC emacs-lisp
 (use-package all-the-icons
   :ensure t)
 #+END_SRC
-** all-the-icons-ivy-rich
-#+begin_src emacs-lisp
-(use-package all-the-icons-ivy-rich
-  :ensure t
-  :init (all-the-icons-ivy-rich-mode 1))
-#+end_src
-** all-the-icons-ibuffer
+* all-the-icons-ibuffer
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
   :ensure t
   :init (all-the-icons-ibuffer-mode 1))
 #+end_src
-** spaceline
+* all-the-icons-ivy-rich
+#+begin_src emacs-lisp
+(use-package all-the-icons-ivy-rich
+  :ensure t
+  :init (all-the-icons-ivy-rich-mode 1))
+#+end_src
+* auto-complete
 #+BEGIN_SRC emacs-lisp
-;;(use-package spaceline
+;;(use-package auto-complete
 ;;  :ensure t
-;;  :init(require 'spaceline)
+;;  :commands auto-complete-mode
+;;  :init
+;;  (progn
+;;    (auto-complete-mode t))
+;;  :bind
+;;  (:map ac-menu-map
+;;   ("C-n" . ac-next)
+;;   ("C-p" . ac-previous))
 ;;  :config
-;;  (setq spaceline-window-numbers-unicode t)
-;;  (setq powerline-default-separator 'slant)
-;;  (spaceline-emacs-theme))
+;;  (setq ac-use-menu-map t)
+;;  (setq ac-auto-show-menu 0)
+;;  (setq ac-auto-start 1)
+;;  (setq ac-fuzzy-enable t)
+;;  (setq ac-quick-help-delay 0)
+;;  (global-auto-complete-mode t))
 #+END_SRC
-** doom-themes
+* avy
 #+BEGIN_SRC emacs-lisp
-(use-package doom-themes
+(use-package avy
+  :ensure t
+  :bind (("M-g c" . avy-goto-char-timer)
+         ("M-g g" . avy-goto-line)
+         ("C-c C-k" . avy-kill-whole-line)))
+#+END_SRC
+* beacon
+#+BEGIN_SRC emacs-lisp
+(use-package beacon
   :ensure t
   :config
-  (load-theme 'doom-one t))
+  (beacon-mode 1))
 #+END_SRC
-** doom-modeline
-#+BEGIN_SRC emacs-lisp 
-(use-package doom-modeline
-  :ensure t
-  :defer t
-  :hook (after-init . doom-modeline-init))
-#+END_SRC
-** default-text-scale-mode
-#+BEGIN_SRC emacs-lisp
-(use-package default-text-scale
-  :ensure t
-  :init
-  (default-text-scale-mode))
-#+END_SRC
-** highlight-indent-guides
-#+begin_src emacs-lisp
-(use-package highlight-indent-guides
-  :ensure t
-  :hook (prog-mode . highlight-indent-guides-mode))
-#+end_src
-** etc
-#+BEGIN_SRC emacs-lisp
-(setq column-number-mode t)
-(setq-default cursor-type 'box)
-(setq-default blink-cursor-blinks 0)
-(tool-bar-mode -1)
-(toggle-scroll-bar -1)
-#+END_SRC
-* smartparents
-#+BEGIN_SRC emacs-lisp
-(use-package smartparens
-  :ensure t
-  :diminish smartparens-mode
-  :init
-  (global-highlight-parentheses-mode t)
-  (smartparens-global-mode t)
-  :config
-  (defun my-fancy-newline ()
-  (interactive)
-  (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
-                             (and (looking-back "<") (looking-at ">"))
-                             (and (looking-back "(") (looking-at ")"))
-                             (and (looking-back "\\[") (looking-at "\\]")))))
-    (newline)
-    (when break-open-pair
-      (save-excursion
-        (newline)
-        (indent-for-tab-command)))
-    (indent-for-tab-command)))
-  (global-set-key (kbd "RET") 'my-fancy-newline)
-  :bind(
-  ("C-M-a" . sp-beginning-of-sexp)
-  ("C-M-e" . sp-end-of-sexp))
-)
-#+END_SRC
-* highlight-parentheses
-#+BEGIN_SRC emacs-lisp
-(use-package highlight-parentheses
-  :ensure t
-  :config
-  (setq hl-paren-background-colors '("#00bfff"))
-  (setq hl-sexp-background-color '("#1c1f26"))
-  (setq hl-paren-colors '("#000000" "#ffff00" "#ff4500" "#ff00ff"))
-)
-#+END_SRC
-* web-mode
-#+BEGIN_SRC emacs-lisp
-(use-package web-mode
-  :ensure t
-  :defer 5
-  :config
-  (setq web-mode-enable-current-element-highlight t)
-  (setq web-mode-enable-current-column-highlight t)
-  (setq web-mode-enable-auto-pairing nil)
-  (setq web-mode-enable-auto-indentation nil)
-  (setq web-mode-enable-css-colorization t)
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 4)
-  (setq web-mode-script-padding 0)
-  (setq web-mode-style-padding 0)
-  (flycheck-add-mode  'javascript-eslint 'web-mode)
-  ;(flycheck-add-mode  'html-tidy 'web-mode)
-  :mode (("\\.vue\\'" . web-mode)
-         ("\\.html\\'" . web-mode)
-         ;;("\\.js\\'" . web-mode)
-         ("\\.wxml\\'" . web-mode)
-         ("\\.wxss\\'" . css-mode)
-         ))
-#+END_SRC
-* helm
-#+BEGIN_SRC emacs-lisp
-(use-package helm
-  :ensure t
-  :bind
-  ("M-x" . helm-M-x)
-  ("C-x C-b" . helm-mini)
-  ("C-x C-f" . helm-find-files)
-  :config
-  (setq helm-mode-fuzzy-match t
-        helm-completion-in-region-fuzzy-match t
-        helm-split-window-inside-p t)
-  (helm-mode 1))
-#+END_SRC
-* flycheck
-#+BEGIN_SRC emacs-lisp
-(use-package flycheck
-  :ensure t
-  :config
-  ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
-  (global-flycheck-mode)
-  (with-eval-after-load 'rust-mode
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
-#+END_SRC
-* flycheck-inline
-#+BEGIN_SRC emacs-lisp
-;;(use-package flycheck-inline
-;;  :ensure t
-;;  :hook(flycheck-mode))
-#+END_SRC
-* multiple-cursors
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors
-  :ensure t
-  :demand
-  :bind (("C-<" . mc/mark-previous-like-this-word)
-         ("C->" . mc/mark-next-like-this-word)
-         ("C-c m c" . mc/edit-beginnings-of-lines)
-         ("C-c m d" . mc/mark-all-dwim)
-         ("C-S-<mouse-1>" . mc/add-cursor-on-click))
-  :config
-  (setq mc/always-run-for-all 1)
-  (add-to-list 'mc/cmds-to-run-once 'mc/toggle-cursor-at-point)
-  (add-to-list 'mc/cmds-to-run-once 'multiple-cursors-mode))
-#+END_SRC
-* emmet-mode
-#+BEGIN_SRC emacs-lisp
-(use-package emmet-mode
-  :ensure t
-  :hook(web-mode sgml-mode rjsx-mode))
-#+END_SRC
-* magit
-#+BEGIN_SRC emacs-lisp
-(use-package magit
-  :ensure t
-  :bind("C-x g" . magit-status))
-#+END_SRC
-* rainbow-delimiters-mode
-#+BEGIN_SRC emacs-lisp
-(use-package rainbow-delimiters-mode
-  :hook(prog-mode-hook))
-#+END_SRC
-* solaire-mode
-#+BEGIN_SRC emacs-lisp
-(use-package solaire-mode
-  :ensure t
-  :hook(web-mode
-        sgml-mode
-        js-mode
-        js2-mode
-        javascript-mode
-        ng2-ts-mode
-        css-mode
-        emacs-lisp-mode
-        python-mode
-        markdown-mode
-        package-menu-mode
-        org-mode
-        php-mode))
-#+END_SRC
-* projectile
-#+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :ensure t
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :config
-  (projectile-mode +1)
-  (setq projectile-completion-system 'ivy))
-#+END_SRC
-* swiper
-#+BEGIN_SRC emacs-lisp
-(use-package swiper
-  :ensure t
-  :bind
-  ("C-s" . swiper)
-  ("C-x b" . ivy-switch-buffer))
-#+END_SRC
-* ivy-rich
-#+begin_src emacs-lisp
-(use-package ivy-rich
-  :ensure t
-  :config
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-  (ivy-rich-mode 1))
-#+end_src
-* rg
-#+BEGIN_SRC emacs-lisp
-(use-package rg
-  :ensure t
-  :config
-  (rg-enable-default-bindings))
-#+END_SRC
-* counsel
-#+BEGIN_SRC emacs-lisp
-(use-package counsel
-  :ensure t
-  :bind
-  ;("M-x" . 'counsel-M-x)
-  ;("C-x C-f" . 'counsel-find-file)
-  :config
-  (setq ivy-use-virtual-buffers t))
-#+END_SRC
-* dumb-jump
-#+BEGIN_SRC emacs-lisp
-(use-package dumb-jump
-  :ensure t
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g i" . dumb-jump-go-prompt)
-         ("M-g x" . dumb-jump-go-prefer-external)
-         ("M-g z" . dumb-jump-go-prefer-external-other-window))
-  :config
-  (setq dumb-jump-force-searcher 'rg)
-  ;;(setq dumb-jump-selector 'helm)
-  ;;(setq dumb-jump-selector 'ivy)
-)
-#+END_SRC
+
 * company
 #+BEGIN_SRC emacs-lisp
 (use-package company
   :ensure t
   :config
-  (setq company-idle-delay 0)
-  (setq company-show-numbers t)
-  (setq company-tooltip-limit 10)
-  (setq company-minimum-prefix-length 1)
-  (setq company-tooltip-align-annotations t)
-  (setq company-dabbrev-downcase nil)
-  ;; invert the navigation direction if the the completion popup-isearch-match
-  ;; is displayed on top (happens near the bottom of windows)
-  (setq company-tooltip-flip-when-above t)
+  (setq company-idle-delay                0
+        company-show-numbers              t
+        company-tooltip-limit             10
+        company-minimum-prefix-length     1
+        company-tooltip-align-annotations t
+        company-dabbrev-downcase          nil
+        company-tooltip-flip-when-above   t)
   (global-company-mode)
   :bind(:map company-active-map
   ("C-n" . 'company-select-next)
@@ -385,39 +111,454 @@
 ;;  :ensure t
 ;;  :hook (company-mode . company-box-mode))
 #+end_src
-* auto-complete
+* counsel
 #+BEGIN_SRC emacs-lisp
-;;(use-package auto-complete
+(use-package counsel
+  :ensure t
+  :bind
+  ;("M-x" . 'counsel-M-x)
+  ;("C-x C-f" . 'counsel-find-file)
+  :config
+  (setq ivy-use-virtual-buffers t))
+#+END_SRC
+* default-text-scale-mode
+#+BEGIN_SRC emacs-lisp
+(use-package default-text-scale
+  :ensure t
+  :init
+  (default-text-scale-mode))
+#+END_SRC
+* display-time
+#+BEGIN_SRC emacs-lisp
+(setq display-time-format               "%Y-%m-%d %H:%M:%S"
+      display-time-interval             1
+      display-time-default-load-average nil)
+(display-time-mode)
+#+END_SRC
+* doom-themes
+#+BEGIN_SRC emacs-lisp
+(use-package doom-themes
+  :ensure t
+  :config
+  (load-theme 'doom-one t))
+#+END_SRC
+* doom-modeline
+#+BEGIN_SRC emacs-lisp 
+(use-package doom-modeline
+  :ensure t
+  :defer t
+  :hook (after-init . doom-modeline-init))
+#+END_SRC
+* dumb-jump
+#+BEGIN_SRC emacs-lisp
+(use-package dumb-jump
+  :ensure t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g i" . dumb-jump-go-prompt)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :config
+  (setq dumb-jump-force-searcher 'rg)
+  ;;(setq dumb-jump-selector 'helm)
+  ;;(setq dumb-jump-selector 'ivy)
+)
+#+END_SRC
+* duplicate-line
+#+begin_src emacs-lisp
+(defun duplicate-line-or-region (&optional n)
+      "Duplicate current line, or region if active.
+    With argument N, make N copies.
+    With negative N, comment out original line and use the absolute value."
+      (interactive "*p")
+      (let ((use-region (use-region-p)))
+        (save-excursion
+          (let ((text (if use-region        ;Get region if active, otherwise line
+                          (buffer-substring (region-beginning) (region-end))
+                        (prog1 (thing-at-point 'line)
+                          (end-of-line)
+                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                              (newline))))))
+            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+              (insert text))))
+        (if use-region nil                  ;Only if we're working with a line (not a region)
+          (let ((pos (- (point) (line-beginning-position)))) ;Save column
+            (if (> 0 n)                             ;Comment out original with negative arg
+                (comment-region (line-beginning-position) (line-end-position)))
+            (forward-line 1)
+            (forward-char pos)))))
+(global-set-key (kbd "M-S-<down>") 'duplicate-line-or-region)
+#+end_src
+* easy-hugo
+#+BEGIN_SRC emacs-lisp
+(use-package easy-hugo
+  :ensure t
+  :init
+  (setq easy-hugo-basedir "~/Documents/blog/"))
+#+END_SRC
+* ein
+#+BEGIN_SRC emacs-lisp
+(use-package ein
+  :ensure t
+  :config
+  (setq request-backend 'url-retrieve))
+#+END_SRC
+* elpy
+#+BEGIN_SRC emacs-lisp
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable)
+  (setq python-shell-interpreter "/home/lam/anaconda3/bin/ipython"
+        python-shell-interpreter-args "-i --simple-prompt"))
+#+END_SRC
+* emacs-application-framework
+#+begin_src emacs-lisp
+(use-package eaf
+  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+  :custom
+  (eaf-find-alternate-file-in-dired t)
+  :config
+  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+  (eaf-setq eaf-browser-dark-mode "false")
+  (eaf-setq eaf-browser-remember-history "false")
+  (setq eaf-proxy-type "socks5"
+        eaf-proxy-host "127.0.0.1"
+        eaf-proxy-port "1080"))
+#+end_src
+* emmet-mode
+#+BEGIN_SRC emacs-lisp
+(use-package emmet-mode
+  :ensure t
+  :hook(web-mode sgml-mode rjsx-mode))
+#+END_SRC
+* expand-region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+  :ensure t
+  :bind ("C-@" . er/expand-region)
+  :config (setq expand-region-fast-keys-enabled nil))
+#+END_SRC
+* flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+  :ensure t
+  :config
+  ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
+  (global-flycheck-mode)
+  (with-eval-after-load 'rust-mode
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+#+END_SRC
+* flycheck-inline
+#+BEGIN_SRC emacs-lisp
+;;(use-package flycheck-inline
 ;;  :ensure t
-;;  :commands auto-complete-mode
-;;  :init
-;;  (progn
-;;    (auto-complete-mode t))
-;;  :bind
-;;  (:map ac-menu-map
-;;   ("C-n" . ac-next)
-;;   ("C-p" . ac-previous))
+;;  :hook(flycheck-mode))
+#+END_SRC
+* flycheck-rust
+#+begin_src emacs-lisp
+(use-package flycheck-rust
+  :ensure t)
+#+end_src
+* highlight-indent-guides
+#+begin_src emacs-lisp
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode . highlight-indent-guides-mode))
+#+end_src
+* highlight-parentheses
+#+BEGIN_SRC emacs-lisp
+(use-package highlight-parentheses
+  :ensure t
+  :config
+  (setq hl-paren-background-colors '("#00bfff")
+        hl-sexp-background-color   '("#1c1f26")
+        hl-paren-colors            '("#000000" "#ffff00" "#ff4500" "#ff00ff")))
+#+END_SRC
+* helm
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+  :ensure t
+  :bind
+  ("M-x" . helm-M-x)
+  ("C-x C-b" . helm-mini)
+  ("C-x C-f" . helm-find-files)
+  :config
+  (setq helm-mode-fuzzy-match t
+        helm-completion-in-region-fuzzy-match t
+        helm-split-window-inside-p t)
+  (helm-mode 1))
+#+END_SRC
+* helpful
+#+BEGIN_SRC emacs-lisp
+(use-package helpful
+  :ensure t
+  :bind
+  ("C-h f" . helpful-callable)
+  ("C-h v" . helpful-variable)
+  ("C-h k" . helpful-key))
+#+END_SRC
+* indium
+#+BEGIN_SRC emacs-lisp
+(use-package indium
+  :ensure t
+  :config
+  (setq indium-chrome-executable "google-chrome"
+        indium-chrome-use-temporary-profile nil))
+#+END_SRC
+* ivy-rich
+#+begin_src emacs-lisp
+(use-package ivy-rich
+  :ensure t
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode 1))
+#+end_src
+* js2-mode
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode
+  :ensure t
+  :config
+  (setq js-indent-level 2)
+  (setq typescript-indent-level 2)
+  (setq js2-strict-missing-semi-warning nil)
+  (defun my/use-eslint-from-node-modules ()
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+;;  :mode ("\\.js\\'" . js2-mode)
+)
+#+END_SRC
+* keybindings
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<C-mouse-4>") 'text-scale-increase)
+  (global-set-key (kbd "<C-mouse-5>") 'text-scale-decrease)
+  (global-set-key (kbd "RET") 'newline-and-indent)
+#+END_SRC
+* lsp-mode
+#+BEGIN_SRC emacs-lisp
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends))
+#+END_SRC
+* magit
+#+BEGIN_SRC emacs-lisp
+(use-package magit
+  :ensure t
+  :bind("C-x g" . magit-status))
+#+END_SRC
+* markdown
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :config
+  (setq markdown-command "/home/lam/anaconda3/bin/pandoc")
+  :mode
+  ("\\.md\\'" . markdown-mode))
+#+END_SRC
+* markdown-preview-mode
+#+BEGIN_SRC emacs-lisp
+(use-package markdown-preview-mode
+  :ensure t)
+#+END_SRC
+* move-text
+#+begin_src emacs-lisp
+(use-package move-text
+  :ensure t
+  :config
+  (move-text-default-bindings))
+#+end_src
+* multiple-cursors
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors
+  :ensure t
+  :demand
+  :bind (("C-<" . mc/mark-previous-like-this-word)
+         ("C->" . mc/mark-next-like-this-word)
+         ("C-c m c" . mc/edit-beginnings-of-lines)
+         ("C-c m d" . mc/mark-all-dwim)
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click))
+  :config
+  (setq mc/always-run-for-all 1)
+  (add-to-list 'mc/cmds-to-run-once 'mc/toggle-cursor-at-point)
+  (add-to-list 'mc/cmds-to-run-once 'multiple-cursors-mode))
+#+END_SRC
+* neotree
+#+BEGIN_SRC emacs-lisp
+;(use-package neotree
+;  :ensure t
+;  :bind([f8] . neotree-toggle)
+;  :config
+;  (setq neo-autorefresh nil)
+;  (setq neo-theme 'icons)
+;  (setq-default neo-show-hidden-files t))
+#+END_SRC
+* projectile
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+  :ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :config
+  (projectile-mode +1)
+  (setq projectile-completion-system 'ivy))
+#+END_SRC
+* PATH
+#+BEGIN_SRC emacs-lisp
+  (setenv "anaconda3" "/home/lam/anaconda3/bin/")
+  (setenv "NVM_BIN" "/home/lam/.nvm/versions/node/v12.18.3/bin")
+  (setenv "yarn" "/home/lam/.yarn/bin/")
+  (setenv "PATH" (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
+  (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v12.18.3/bin"))
+        exec-path (append exec-path '("/home/lam/anaconda3/bin/"))
+        exec-path (append exec-path '("/home/lam/.yarn/bin/")))
+#+END_SRC
+* pdf-tools
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :mode (("\\.pdf\\'" . pdf-view-mode))
+  :config
+  (pdf-tools-install)
+  ;; use normal isearch
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+#+end_src
+* pyim
+#+BEGIN_SRC emacs-lisp
+(use-package posframe
+    :ensure t)
+(use-package pyim
+  :ensure t
+  :config
+  ;;(use-package pyim-cangjie5dict
+  ;;  :ensure t
+  ;;  :config (pyim-cangjie5-enable))
+  (use-package pyim-basedict
+    :ensure nil
+    :config (pyim-basedict-enable))
+  (setq ;pyim-dicts '((:file "/home/lam/Documents/pyim-bigdict.pyim"))
+        ;pyim-default-scheme 'cangjie
+        pyim-default-scheme  'xiaohe-shuangpin
+        default-input-method "pyim"
+        pyim-page-tooltip    'posframe))
+#+END_SRC
+* rainbow-delimiters-mode
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters-mode
+  :hook(prog-mode-hook))
+#+END_SRC
+* rjsx-mode
+#+BEGIN_SRC emacs-lisp
+(use-package rjsx-mode
+  :ensure t
+  :mode ("\\.js\\'" . rjsx-mode))
+#+END_SRC
+* rg
+#+BEGIN_SRC emacs-lisp
+(use-package rg
+  :ensure t
+  :config
+  (rg-enable-default-bindings))
+#+END_SRC
+* rust-mode
+#+begin_src emacs-lisp
+(use-package rust-mode
+  :ensure t)
+#+end_src
+* rust-playground
+#+begin_src emacs-lisp
+(use-package rust-playground
+  :ensure t)
+#+end_src
+* spaceline
+#+BEGIN_SRC emacs-lisp
+;;(use-package spaceline
+;;  :ensure t
+;;  :init(require 'spaceline)
 ;;  :config
-;;  (setq ac-use-menu-map t)
-;;  (setq ac-auto-show-menu 0)
-;;  (setq ac-auto-start 1)
-;;  (setq ac-fuzzy-enable t)
-;;  (setq ac-quick-help-delay 0)
-;;  (global-auto-complete-mode t))
+;;  (setq spaceline-window-numbers-unicode t)
+;;  (setq powerline-default-separator 'slant)
+;;  (spaceline-emacs-theme))
 #+END_SRC
-* avy
+* smartparents
 #+BEGIN_SRC emacs-lisp
-(use-package avy
+(use-package smartparens
   :ensure t
-  :bind (("M-g c" . avy-goto-char-timer)
-         ("M-g g" . avy-goto-line)
-         ("C-c C-k" . avy-kill-whole-line)))
+  :diminish smartparens-mode
+  :init
+  (global-highlight-parentheses-mode t)
+  (smartparens-global-mode t)
+  :config
+  (defun my-fancy-newline ()
+  (interactive)
+  (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
+                             (and (looking-back "<") (looking-at ">"))
+                             (and (looking-back "(") (looking-at ")"))
+                             (and (looking-back "\\[") (looking-at "\\]")))))
+    (newline)
+    (when break-open-pair
+      (save-excursion
+        (newline)
+        (indent-for-tab-command)))
+    (indent-for-tab-command)))
+  (global-set-key (kbd "RET") 'my-fancy-newline)
+  :bind(
+  ("C-M-a" . sp-beginning-of-sexp)
+  ("C-M-e" . sp-end-of-sexp))
+)
 #+END_SRC
-* undo-tree
+* solaire-mode
 #+BEGIN_SRC emacs-lisp
-(use-package undo-tree
+(use-package solaire-mode
   :ensure t
-  :init(global-undo-tree-mode))
+  :hook(web-mode
+        sgml-mode
+        js-mode
+        js2-mode
+        javascript-mode
+        ng2-ts-mode
+        css-mode
+        emacs-lisp-mode
+        python-mode
+        markdown-mode
+        package-menu-mode
+        org-mode
+        php-mode))
+#+END_SRC
+* swiper
+#+BEGIN_SRC emacs-lisp
+(use-package swiper
+  :ensure t
+  :bind
+  ("C-s" . swiper)
+  ("C-x b" . ivy-switch-buffer))
+#+END_SRC
+* symbol-overlay
+#+BEGIN_SRC emacs-lisp
+(use-package symbol-overlay
+  :ensure t
+  :bind (:map symbol-overlay-mode-map
+  ("M-h" . symbol-overlay-put)
+  ("M-n" . symbol-overlay-jump-next)
+  ("M-p" . symbol-overlay-jump-prev))
+  :hook (prog-mode . symbol-overlay-mode))
 #+END_SRC
 * treemacs
 #+BEGIN_SRC emacs-lisp
@@ -511,69 +652,46 @@
   :after treemacs magit
   :ensure t)
 #+END_SRC
-* beacon
+* undo-tree
 #+BEGIN_SRC emacs-lisp
-(use-package beacon
+(use-package undo-tree
   :ensure t
+  :init(global-undo-tree-mode))
+#+END_SRC
+* web-mode
+#+BEGIN_SRC emacs-lisp
+(use-package web-mode
+  :ensure t
+  :defer 5
   :config
-  (beacon-mode 1))
+  (setq web-mode-enable-current-element-highlight t
+        web-mode-enable-current-column-highlight  t
+        web-mode-enable-auto-pairing              nil
+        web-mode-enable-auto-indentation          nil
+        web-mode-enable-css-colorization          t
+        web-mode-markup-indent-offset             2
+        web-mode-css-indent-offset                2
+        web-mode-code-indent-offset               2
+        web-mode-script-padding                   0
+        web-mode-style-padding                    0)
+  (flycheck-add-mode  'javascript-eslint 'web-mode)
+  ;(flycheck-add-mode  'html-tidy 'web-mode)
+  :mode (("\\.vue\\'" . web-mode)
+         ("\\.html\\'" . web-mode)
+         ;;("\\.js\\'" . web-mode)
+         ("\\.wxml\\'" . web-mode)
+         ("\\.wxss\\'" . css-mode)
+         ))
 #+END_SRC
-* symbol-overlay
+* which key
 #+BEGIN_SRC emacs-lisp
-(use-package symbol-overlay
+(use-package which-key
   :ensure t
-  :bind (:map symbol-overlay-mode-map
-  ("M-h" . symbol-overlay-put)
-  ("M-n" . symbol-overlay-jump-next)
-  ("M-p" . symbol-overlay-jump-prev))
-  :hook (prog-mode . symbol-overlay-mode))
-#+END_SRC
-* yasnippet
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet
-  :ensure t
-  :init
-    (yas-global-mode 1))
-#+END_SRC
-* yasnippet-snippets
-#+BEGIN_SRC emacs-lisp
-(use-package yasnippet-snippets
-  :ensure t)
-#+END_SRC
-* js2-mode
-#+BEGIN_SRC emacs-lisp
-(use-package js2-mode
-  :ensure t
+  :defer 5
+  :diminish
+  :commands which-key-mode
   :config
-  (setq js-indent-level 2)
-  (setq typescript-indent-level 2)
-  (setq js2-strict-missing-semi-warning nil)
-  (defun my/use-eslint-from-node-modules ()
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (eslint (and root
-                        (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                          root))))
-      (when (and eslint (file-executable-p eslint))
-        (setq-local flycheck-javascript-eslint-executable eslint))))
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-;;  :mode ("\\.js\\'" . js2-mode)
-)
-#+END_SRC
-* indium
-#+BEGIN_SRC emacs-lisp
-(use-package indium
-  :ensure t
-  :config
-  (setq indium-chrome-executable "google-chrome")
-  (setq indium-chrome-use-temporary-profile nil))
-#+END_SRC
-* rjsx-mode
-#+BEGIN_SRC emacs-lisp
-(use-package rjsx-mode
-  :ensure t
-  :mode ("\\.js\\'" . rjsx-mode))
+  (which-key-mode))
 #+END_SRC
 * winum
 #+BEGIN_SRC emacs-lisp
@@ -588,132 +706,19 @@
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 #+END_SRC
-* elpy
+* yasnippet
 #+BEGIN_SRC emacs-lisp
-(use-package elpy
-  :ensure t
-  :config
-  (elpy-enable)
-  (setq python-shell-interpreter "/home/lam/anaconda3/bin/ipython")
-  (setq python-shell-interpreter-args "-i --simple-prompt"))
-#+END_SRC
-* ein
-#+BEGIN_SRC emacs-lisp
-(use-package ein
-  :ensure t
-  :config
-  (setq request-backend 'url-retrieve))
-#+END_SRC
-* markdown
-#+BEGIN_SRC emacs-lisp
-(use-package markdown-mode
-  :ensure t
-  :config
-  (setq markdown-command "/home/lam/anaconda3/bin/pandoc")
-  :mode
-  ("\\.md\\'" . markdown-mode))
-#+END_SRC
-* markdown-preview-mode
-#+BEGIN_SRC emacs-lisp
-(use-package markdown-preview-mode
-  :ensure t)
-#+END_SRC
-* lsp-mode
-#+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :ensure t
-  :commands lsp)
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends))
-#+END_SRC
-* helpful
-#+BEGIN_SRC emacs-lisp
-(use-package helpful
-  :ensure t
-  :bind
-  ("C-h f" . helpful-callable)
-  ("C-h v" . helpful-variable)
-  ("C-h k" . helpful-key))
-#+END_SRC
-* display-time
-#+BEGIN_SRC emacs-lisp
-(setq display-time-format "%Y-%m-%d %H:%M:%S")
-(setq display-time-interval 1)
-(setq display-time-default-load-average nil)
-(display-time-mode)
-#+END_SRC
-* easy-hugo
-#+BEGIN_SRC emacs-lisp
-(use-package easy-hugo
+(use-package yasnippet
   :ensure t
   :init
-  (setq easy-hugo-basedir "~/Documents/blog/"))
+    (yas-global-mode 1))
 #+END_SRC
-* pdf-tools
-#+begin_src emacs-lisp
-(use-package pdf-tools
-  :ensure t
-  :mode (("\\.pdf\\'" . pdf-view-mode))
-  :config
-  (pdf-tools-install)
-  ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
-#+end_src
-* emacs-application-framework
-#+begin_src emacs-lisp
-;(use-package eaf
-;  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
-;  :custom
-;  (eaf-find-alternate-file-in-dired t)
-;  :config
-;  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
-;  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
-;  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-;  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-;  (setq eaf-proxy-type "socks5")
-;  (setq eaf-proxy-host "127.0.0.1")
-;  (setq eaf-proxy-port "1080")
-;)
-#+end_src
-* move-text
-#+begin_src emacs-lisp
-(use-package move-text
-  :ensure t
-  :config
-  (move-text-default-bindings))
-#+end_src
-* duplicate-line
-#+begin_src emacs-lisp
-(defun duplicate-line-or-region (&optional n)
-      "Duplicate current line, or region if active.
-    With argument N, make N copies.
-    With negative N, comment out original line and use the absolute value."
-      (interactive "*p")
-      (let ((use-region (use-region-p)))
-        (save-excursion
-          (let ((text (if use-region        ;Get region if active, otherwise line
-                          (buffer-substring (region-beginning) (region-end))
-                        (prog1 (thing-at-point 'line)
-                          (end-of-line)
-                          (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
-                              (newline))))))
-            (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
-              (insert text))))
-        (if use-region nil                  ;Only if we're working with a line (not a region)
-          (let ((pos (- (point) (line-beginning-position)))) ;Save column
-            (if (> 0 n)                             ;Comment out original with negative arg
-                (comment-region (line-beginning-position) (line-end-position)))
-            (forward-line 1)
-            (forward-char pos)))))
-(global-set-key (kbd "M-S-<down>") 'duplicate-line-or-region)
-#+end_src
-* etc
+* yasnippet-snippets
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet-snippets
+  :ensure t)
+#+END_SRC
+* misc
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
   (global-subword-mode 1)
@@ -722,17 +727,23 @@
   (global-hl-line-mode t)
   (global-auto-revert-mode t)
   (delete-selection-mode 1)
-  (setq frame-title-format "%b")
+  (setq )
   (treemacs)
   ;;(toggle-frame-maximized)
   (menu-bar-mode -1)
   ;;(desktop-save-mode t)
-  ;;(electric-pair-mode t)
-  (setq-default indent-tabs-mode nil)
-  (setq-default tab-width 4)
-  (setq inhibit-splash-screen t)
-  (setq make-backup-files nil)
-  (setq er--show-expansion-message t)
-  (setq create-lockfiles nil)
-  (setq replace-lax-whitespace t)
+  ;;(electric-pair-mode t)  
+  (setq column-number-mode         t
+        create-lockfiles           nil
+        er--show-expansion-message t
+        frame-title-format         "%b"
+        inhibit-splash-screen      t
+        make-backup-files          nil
+        replace-lax-whitespace     t)
+  (setq-default cursor-type         'box
+                blink-cursor-blinks 0
+                indent-tabs-mode    nil
+                tab-width           4)
+  (tool-bar-mode -1)
+  (toggle-scroll-bar -1)
 #+END_SRC
