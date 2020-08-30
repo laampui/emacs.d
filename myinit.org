@@ -199,10 +199,6 @@
   :custom
   (eaf-find-alternate-file-in-dired t)
   :config
-  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
   (eaf-setq eaf-browser-dark-mode "false")
   (eaf-setq eaf-browser-remember-history "false")
   (setq eaf-proxy-type "socks5"
@@ -422,6 +418,8 @@
 * rg
 #+BEGIN_SRC emacs-lisp
 (use-package rg
+  :ensure-system-package
+  (rg . ripgrep)
   :config
   (rg-enable-default-bindings))
 #+END_SRC
@@ -583,6 +581,10 @@
 (use-package undo-tree
   :init(global-undo-tree-mode))
 #+END_SRC
+* use-package-ensure-system-package
+#+begin_src emacs-lisp
+(use-package use-package-ensure-system-package)
+#+end_src
 * web-mode
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
@@ -647,7 +649,6 @@
   (global-hl-line-mode t)
   (global-auto-revert-mode t)
   (delete-selection-mode 1)
-  (setq )
   (treemacs)
   ;;(toggle-frame-maximized)
   (menu-bar-mode -1)
