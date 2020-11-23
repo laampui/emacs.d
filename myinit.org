@@ -662,9 +662,9 @@
         make-backup-files          nil
         replace-lax-whitespace     t
         scroll-step                1
-        mouse-wheel-scroll-amount '(2 ((shift) . 2))
+        mouse-wheel-scroll-amount  '(3 ((shift) . 3))
         mouse-wheel-progressive-speed nil
-        mouse-wheel-follow-mouse 't)
+        mouse-wheel-follow-mouse   't)
   (setq-default cursor-type         'box
                 blink-cursor-blinks 0
                 indent-tabs-mode    nil
