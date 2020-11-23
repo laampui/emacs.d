@@ -660,11 +660,13 @@
         frame-title-format         "%b"
         inhibit-splash-screen      t
         make-backup-files          nil
-        replace-lax-whitespace     t)
+        replace-lax-whitespace     t
+        scroll-step                1)
   (setq-default cursor-type         'box
                 blink-cursor-blinks 0
                 indent-tabs-mode    nil
                 tab-width           4)
   (tool-bar-mode -1)
   (toggle-scroll-bar -1)
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
 #+END_SRC
