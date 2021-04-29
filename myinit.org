@@ -4,15 +4,17 @@
 (use-package all-the-icons)
 #+END_SRC
 * all-the-icons-ibuffer
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package all-the-icons-ibuffer
+  :ensure t
   :init (all-the-icons-ibuffer-mode 1))
-#+end_src
+#+END_SRC
 * all-the-icons-ivy-rich
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package all-the-icons-ivy-rich
+  :ensure t
   :init (all-the-icons-ivy-rich-mode 1))
-#+end_src
+#+END_SRC
 * auto-complete
 #+BEGIN_SRC emacs-lisp
 ;;(use-package auto-complete
@@ -79,10 +81,10 @@
 ;  (setq company-tern-meta-as-single-line nil))
 #+END_SRC
 * company-tabnine
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package company-tabnine
   :init
-  (push 'company-tabnine company-backends)
+  ;;(push 'company-tabnine company-backends)
   ;;(add-to-list 'company-backends #'company-tabnine)
   :config
   ;; Use the tab-and-go frontend.
@@ -93,12 +95,12 @@
   ;;        company-pseudo-tooltip-frontend
   ;;        company-echo-metadata-frontend))
 )
-#+end_src
+#+END_SRC
 * company-box
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 ;;(use-package company-box
 ;;  :hook (company-mode . company-box-mode))
-#+end_src
+#+END_SRC
 * counsel
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
@@ -148,7 +150,7 @@
 )
 #+END_SRC
 * duplicate-line
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (defun duplicate-line-or-region (&optional n)
       "Duplicate current line, or region if active.
     With argument N, make N copies.
@@ -171,7 +173,7 @@
             (forward-line 1)
             (forward-char pos)))))
 (global-set-key (kbd "M-S-<down>") 'duplicate-line-or-region)
-#+end_src
+#+END_SRC
 * easy-hugo
 #+BEGIN_SRC emacs-lisp
 (use-package easy-hugo
@@ -193,18 +195,18 @@
         python-shell-interpreter-args "-i --simple-prompt"))
 #+END_SRC
 * emacs-application-framework
-#+begin_src emacs-lisp
-(use-package eaf
-  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
-  :custom
-  (eaf-find-alternate-file-in-dired t)
-  :config
-  (eaf-setq eaf-browser-dark-mode "false")
-  (eaf-setq eaf-browser-remember-history "false")
-  (setq eaf-proxy-type "socks5"
-        eaf-proxy-host "127.0.0.1"
-        eaf-proxy-port "1080"))
-#+end_src
+#+BEGIN_SRC emacs-lisp
+;;(use-package eaf
+;;  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+;;  :custom
+;;  (eaf-find-alternate-file-in-dired t)
+;;  :config
+;;  (eaf-setq eaf-browser-dark-mode "false")
+;;  (eaf-setq eaf-browser-remember-history "false")
+;;  (setq eaf-proxy-type "socks5"
+;;        eaf-proxy-host "127.0.0.1"
+;;        eaf-proxy-port "1080"))
+#+END_SRC
 * emmet-mode
 #+BEGIN_SRC emacs-lisp
 (use-package emmet-mode
@@ -220,7 +222,7 @@
 #+BEGIN_SRC emacs-lisp
 (use-package flycheck
   :config
-  ;;(setq flycheck-check-syntax-automatically 'mode-enabled)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (global-flycheck-mode)
   (with-eval-after-load 'rust-mode
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
@@ -231,14 +233,14 @@
 ;;  :hook(flycheck-mode))
 #+END_SRC
 * flycheck-rust
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package flycheck-rust)
-#+end_src
+#+END_SRC
 * highlight-indent-guides
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode))
-#+end_src
+#+END_SRC
 * highlight-parentheses
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-parentheses
@@ -269,9 +271,9 @@
   ("C-h k" . helpful-key))
 #+END_SRC
 * iedit
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package iedit)
-#+end_src
+#+END_SRC
 * indium
 #+BEGIN_SRC emacs-lisp
 (use-package indium
@@ -280,12 +282,12 @@
         indium-chrome-use-temporary-profile nil))
 #+END_SRC
 * ivy-rich
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package ivy-rich
   :config
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   (ivy-rich-mode 1))
-#+end_src
+#+END_SRC
 * js2-mode
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode
@@ -315,13 +317,37 @@
 * lsp-mode
 #+BEGIN_SRC emacs-lisp
 (use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (rjsx-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp)
-(use-package lsp-ui
-  :commands lsp-ui-mode)
-(use-package company-lsp
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends))
+
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+;; if you are helm user
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;; if you are ivy user
+(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+
+;; optionally if you want to use debugger
+(use-package dap-mode)
+;; (use-package dap-LANGUAGE) to load the dap adapter for your language
+
+;; optional if you want which-key integration
+(use-package which-key
+    :config
+    (which-key-mode))
+
+;(use-package company-lsp
+;  :commands company-lsp
+;  :config
+;  (push 'company-lsp company-backends))
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp
@@ -341,11 +367,11 @@
 (use-package markdown-preview-mode)
 #+END_SRC
 * move-text
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package move-text
   :config
   (move-text-default-bindings))
-#+end_src
+#+END_SRC
 * multiple-cursors
 #+BEGIN_SRC emacs-lisp
 (use-package multiple-cursors
@@ -381,14 +407,14 @@
         exec-path (append exec-path '("/home/lam/.yarn/bin/")))
 #+END_SRC
 * pdf-tools
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
   :mode (("\\.pdf\\'" . pdf-view-mode))
   :config
   (pdf-tools-install)
   ;; use normal isearch
   (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
-#+end_src
+#+END_SRC
 * pyim
 #+BEGIN_SRC emacs-lisp
 (use-package posframe)
@@ -424,13 +450,13 @@
   (rg-enable-default-bindings))
 #+END_SRC
 * rust-mode
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package rust-mode)
-#+end_src
+#+END_SRC
 * rust-playground
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package rust-playground)
-#+end_src
+#+END_SRC
 * spaceline
 #+BEGIN_SRC emacs-lisp
 ;;(use-package spaceline
@@ -582,9 +608,9 @@
   :init(global-undo-tree-mode))
 #+END_SRC
 * use-package-ensure-system-package
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package use-package-ensure-system-package)
-#+end_src
+#+END_SRC
 * web-mode
 #+BEGIN_SRC emacs-lisp
 (use-package web-mode
