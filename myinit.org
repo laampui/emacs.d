@@ -50,6 +50,7 @@
 * company
 #+BEGIN_SRC emacs-lisp
 (use-package company
+  :hook (global-company-mode . company-tng-mode)
   :config
   (setq company-idle-delay                0
         company-show-numbers              t
@@ -60,8 +61,11 @@
         company-tooltip-flip-when-above   t)
   (global-company-mode)
   :bind(:map company-active-map
+  ("<return>" . 'company-complete-selection)
   ("C-n" . 'company-select-next)
   ("C-p" . 'company-select-previous)
+  ("C-v" . 'company-next-page)
+  ("M-v" . 'company-previous-page)
   ("TAB" . 'company-complete-common-or-cycle)
   ("<tab>" . 'company-complete-common-or-cycle)))
 #+END_SRC
@@ -72,34 +76,26 @@
   (company-quickhelp-mode)
   (setq company-quickhelp-delay 0))
 #+END_SRC
-* company-tern
-#+BEGIN_SRC emacs-lisp
-;(use-package company-tern
-;  :init
-;  (add-to-list 'company-backends 'company-tern)
-;  :config
-;  (setq company-tern-meta-as-single-line nil))
-#+END_SRC
 * company-tabnine
 #+BEGIN_SRC emacs-lisp
 (use-package company-tabnine
   :init
-  ;;(push 'company-tabnine company-backends)
-  ;;(add-to-list 'company-backends #'company-tabnine)
+  (push 'company-tabnine company-backends)
+  (add-to-list 'company-backends #'company-tabnine)
   :config
   ;; Use the tab-and-go frontend.
   ;; Allows TAB to select and complete at the same time.
-  ;;(company-tng-configure-default)
-  ;;(setq company-frontends
-  ;;      '(company-tng-frontend
-  ;;        company-pseudo-tooltip-frontend
-  ;;        company-echo-metadata-frontend))
+  ;; (company-tng-mode)
+  (setq company-frontends
+        '(company-tng-frontend
+          company-pseudo-tooltip-frontend
+          company-echo-metadata-frontend))
 )
 #+END_SRC
 * company-box
 #+BEGIN_SRC emacs-lisp
-;;(use-package company-box
-;;  :hook (company-mode . company-box-mode))
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 #+END_SRC
 * counsel
 #+BEGIN_SRC emacs-lisp
@@ -339,15 +335,10 @@
 (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
-;; optional if you want which-key integration
-(use-package which-key
+(use-package company-lsp
+  :commands company-lsp
     :config
-    (which-key-mode))
-
-;(use-package company-lsp
-;  :commands company-lsp
-;  :config
-;  (push 'company-lsp company-backends))
+  (push 'company-lsp company-backends))
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp
