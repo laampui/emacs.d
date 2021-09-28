@@ -78,19 +78,19 @@
 #+END_SRC
 * company-tabnine
 #+BEGIN_SRC emacs-lisp
-(use-package company-tabnine
-  :init
-  (push 'company-tabnine company-backends)
-  (add-to-list 'company-backends #'company-tabnine)
-  :config
-  ;; Use the tab-and-go frontend.
-  ;; Allows TAB to select and complete at the same time.
-  ;; (company-tng-mode)
-  (setq company-frontends
-        '(company-tng-frontend
-          company-pseudo-tooltip-frontend
-          company-echo-metadata-frontend))
-)
+;;(use-package company-tabnine
+;;  :init
+;;  (push 'company-tabnine company-backends)
+;;  (add-to-list 'company-backends #'company-tabnine)
+;;  :config
+;;  ;; Use the tab-and-go frontend.
+;;  ;; Allows TAB to select and complete at the same time.
+;;  ;; (company-tng-mode)
+;;  (setq company-frontends
+;;        '(company-tng-frontend
+;;          company-pseudo-tooltip-frontend
+;;          company-echo-metadata-frontend))
+;;)
 #+END_SRC
 * company-box
 #+BEGIN_SRC emacs-lisp
@@ -101,9 +101,15 @@
 #+BEGIN_SRC emacs-lisp
 (use-package counsel
   :bind
-  ;("M-x" . 'counsel-M-x)
-  ;("C-x C-f" . 'counsel-find-file)
+  ("M-x" . 'counsel-M-x)
+  ("C-x C-f" . 'counsel-find-file)
+  :bind(
+    :map counsel-find-file-map
+    ("C-l" . 'counsel-up-directory)
+    ("<right>" . 'ivy-alt-done)
+  )
   :config
+  (ivy-mode 1)
   (setq ivy-use-virtual-buffers t))
 #+END_SRC
 * default-text-scale-mode
@@ -235,23 +241,184 @@
 * git-gutter
 #+BEGIN_SRC emacs-lisp
 (use-package git-gutter
+  :disabled
+  :bind
+  ("C-x p" . 'git-gutter:previous-hunk)
+  ("C-x n" . 'git-gutter:next-hunk)
+  ("C-x v SPC" . 'git-gutter:mark-hunk)
   :config
   (global-git-gutter-mode +1)
-  ;; Jump to next/previous hunk
-  (global-set-key (kbd "C-x p") 'git-gutter:previous-hunk)
-  (global-set-key (kbd "C-x n") 'git-gutter:next-hunk)
-  ;; Mark current hunk
-  (global-set-key (kbd "C-x v SPC") #'git-gutter:mark-hunk)
-  (setq git-gutter:window-width 1)
-  (set-face-background 'git-gutter:modified "#0c7d9d") ;; background color
-  (set-face-background 'git-gutter:added "#587c0c")
-  (set-face-background 'git-gutter:deleted "red")
-)
+  (setq git-gutter:window-width 1
+        git-gutter:added-sign " "
+        git-gutter:deleted-sign " "
+        git-gutter:modified-sign " ")
+  (set-face-background 'git-gutter:modified "#40a9ff") ;; background color
+  (set-face-background 'git-gutter:added "#349204")
+  (set-face-background 'git-gutter:deleted "red"))
+#+END_SRC
+* diff-hl
+#+BEGIN_SRC emacs-lisp
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode t))
+#+END_SRC
+* editorconfig
+#+BEGIN_SRC emacs-lisp
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+#+END_SRC
+* git-messenger
+#+BEGIN_SRC emacs-lisp
+; Pop up last commit information of current line
+(use-package git-messenger
+  :bind (:map vc-prefix-map
+         ("p" . git-messenger:popup-message)
+         :map git-messenger-map
+         ("m" . git-messenger:copy-message))
+  :init (setq git-messenger:show-detail t
+              git-messenger:use-magit-popup t)
+  :config
+  (with-no-warnings
+    (with-eval-after-load 'hydra
+      (defhydra git-messenger-hydra (:color blue)
+        ("s" git-messenger:popup-show "show")
+        ("c" git-messenger:copy-commit-id "copy hash")
+        ("m" git-messenger:copy-message "copy message")
+        ("," (catch 'git-messenger-loop (git-messenger:show-parent)) "go parent")
+        ("q" git-messenger:popup-close "quit")))
+
+    (defun my-git-messenger:format-detail (vcs commit-id author message)
+      (if (eq vcs 'git)
+          (let ((date (git-messenger:commit-date commit-id))
+                (colon (propertize ":" 'face 'font-lock-comment-face)))
+            (concat
+             (format "%s%s %s \n%s%s %s\n%s  %s %s \n"
+                     (propertize "Commit" 'face 'font-lock-keyword-face) colon
+                     (propertize (substring commit-id 0 8) 'face 'font-lock-comment-face)
+                     (propertize "Author" 'face 'font-lock-keyword-face) colon
+                     (propertize author 'face 'font-lock-string-face)
+                     (propertize "Date" 'face 'font-lock-keyword-face) colon
+                     (propertize date 'face 'font-lock-string-face))
+             (propertize (make-string 38 ?─) 'face 'font-lock-comment-face)
+             message
+             (propertize "\nPress q to quit" 'face '(:inherit (font-lock-comment-face italic)))))
+        (git-messenger:format-detail vcs commit-id author message)))
+
+    (defun my-git-messenger:popup-message ()
+      "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
+      (interactive)
+      (let* ((hydra-hint-display-type 'message)
+             (vcs (git-messenger:find-vcs))
+             (file (buffer-file-name (buffer-base-buffer)))
+             (line (line-number-at-pos))
+             (commit-info (git-messenger:commit-info-at-line vcs file line))
+             (commit-id (car commit-info))
+             (author (cdr commit-info))
+             (msg (git-messenger:commit-message vcs commit-id))
+             (popuped-message (if (git-messenger:show-detail-p commit-id)
+                                  (my-git-messenger:format-detail vcs commit-id author msg)
+                                (cl-case vcs
+                                  (git msg)
+                                  (svn (if (string= commit-id "-")
+                                           msg
+                                         (git-messenger:svn-message msg)))
+                                  (hg msg)))))
+        (setq git-messenger:vcs vcs
+              git-messenger:last-message msg
+              git-messenger:last-commit-id commit-id)
+        (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
+        (git-messenger-hydra/body)
+        (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
+               (let ((buffer-name "*git-messenger*"))
+                 (posframe-show buffer-name
+                                :string (concat (propertize "\n" 'face '(:height 0.3))
+                                                popuped-message
+                                                "\n"
+                                                (propertize "\n" 'face '(:height 0.3)))
+                                :left-fringe 8
+                                :right-fringe 8
+                                :internal-border-width 1
+                                :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                                :background-color (face-background 'tooltip nil t))
+                 (unwind-protect
+                     (push (read-event) unread-command-events)
+                   (posframe-hide buffer-name))))
+              ((and (fboundp 'pos-tip-show) (display-graphic-p))
+               (pos-tip-show popuped-message))
+              ((fboundp 'lv-message)
+               (lv-message popuped-message)
+               (unwind-protect
+                   (push (read-event) unread-command-events)
+                 (lv-delete-window)))
+              (t (message "%s" popuped-message)))
+        (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
+    (advice-add #'git-messenger:popup-close :override #'ignore)
+    (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message)))
+#+END_SRC
+* git-timemachine
+#+BEGIN_SRC emacs-lisp
+(use-package git-timemachine
+  :disabled)
+#+END_SRC
+* vc-msg
+#+BEGIN_SRC emacs-lisp
+(use-package vs-msg
+  :disabled)
+#+END_SRC
+* smerge-mode
+#+BEGIN_SRC emacs-lisp
+;; Resolve diff3 conflicts
+;;(use-package smerge-mode
+;;  :ensure nil
+;;  :diminish
+;;  :pretty-hydra
+;;  ((:title (pretty-hydra-title "Smerge" 'octicon "diff")
+;;    :color pink :quit-key "q")
+;;   ("Move"
+;;    (("n" smerge-next "next")
+;;     ("p" smerge-prev "previous"))
+;;    "Keep"
+;;    (("b" smerge-keep-base "base")
+;;     ("u" smerge-keep-upper "upper")
+;;     ("l" smerge-keep-lower "lower")
+;;     ("a" smerge-keep-all "all")
+;;     ("RET" smerge-keep-current "current")
+;;     ("C-m" smerge-keep-current "current"))
+;;    "Diff"
+;;    (("<" smerge-diff-base-upper "upper/base")
+;;     ("=" smerge-diff-upper-lower "upper/lower")
+;;     (">" smerge-diff-base-lower "upper/lower")
+;;     ("R" smerge-refine "refine")
+;;     ("E" smerge-ediff "ediff"))
+;;    "Other"
+;;    (("C" smerge-combine-with-next "combine")
+;;     ("r" smerge-resolve "resolve")
+;;     ("k" smerge-kill-current "kill")
+;;     ("ZZ" (lambda ()
+;;             (interactive)
+;;             (save-buffer)
+;;             (bury-buffer))
+;;      "Save and bury buffer" :exit t))))
+;;  :bind (:map smerge-mode-map
+;;         ("C-c m" . smerge-mode-hydra/body))
+;;  :hook ((find-file . (lambda ()
+;;                        (save-excursion
+;;                          (goto-char (point-min))
+;;                          (when (re-search-forward "^<<<<<<< " nil t)
+;;                            (smerge-mode 1)))))
+;;         (magit-diff-visit-file . (lambda ()
+;;                                    (when smerge-mode
+;;                                      (hydra-smerge/body))))))
 #+END_SRC
 * highlight-indent-guides
 #+BEGIN_SRC emacs-lisp
 (use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode))
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :config
+  (setq highlight-indent-guides-method 'fill
+        highlight-indent-guides-responsive nil)
+)
 #+END_SRC
 * highlight-parentheses
 #+BEGIN_SRC emacs-lisp
@@ -259,11 +426,12 @@
   :config
   (setq hl-paren-background-colors '("#00bfff")
         hl-sexp-background-color   '("#1c1f26")
-        hl-paren-colors            '("#000000" "#ffff00" "#ff4500" "#ff00ff")))
+        hl-paren-colors            '("#000000" "#ff6e00" "#01db52" "#ff00ff")))
 #+END_SRC
 * helm
 #+BEGIN_SRC emacs-lisp
 (use-package helm
+  :disabled
   :bind
   ("M-x" . helm-M-x)
   ("C-x C-b" . helm-mini)
@@ -328,33 +496,33 @@
 #+END_SRC
 * lsp-mode
 #+BEGIN_SRC emacs-lisp
-(use-package lsp-mode
-  :init
-  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-  (setq lsp-keymap-prefix "C-c l")
-  (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (rjsx-mode . lsp)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp)
+;;(use-package lsp-mode
+;;  :init
+;;  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+;;  (setq lsp-keymap-prefix "C-c l")
+;;  (setq read-process-output-max (* 1024 1024 3)) ;; 3mb
+;;  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;;         (rjsx-mode . lsp)
+;;         ;; if you want which-key integration
+;;         (lsp-mode . lsp-enable-which-key-integration))
+;;  :commands lsp)
 
 ;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
+;;(use-package lsp-ui :commands lsp-ui-mode)
 ;; if you are helm user
-(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+;;(use-package helm-lsp :commands helm-lsp-workspace-symbol)
 ;; if you are ivy user
-(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
+;;(use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+;;(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;; optionally if you want to use debugger
 (use-package dap-mode)
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
 
-(use-package company-lsp
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends))
+;;(use-package company-lsp
+;;  :commands company-lsp
+;;   :config
+;;  (push 'company-lsp company-backends))
 #+END_SRC
 * magit
 #+BEGIN_SRC emacs-lisp
@@ -405,13 +573,12 @@
 #+END_SRC
 * PATH
 #+BEGIN_SRC emacs-lisp
-  (setenv "anaconda3" "/home/lam/anaconda3/bin/")
-  (setenv "NVM_BIN"  "/home/lam/.nvm/versions/node/v12.18.3/bin")
-  (setenv "yarn"     "/home/lam/.yarn/bin/")
-  (setenv "PATH"     (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "anaconda3") ":" (getenv "yarn")))
-  (setq exec-path (append exec-path '("/home/lam/.nvm/versions/node/v12.18.3/bin"))
-        exec-path (append exec-path '("/home/lam/anaconda3/bin/"))
-        exec-path (append exec-path '("/home/lam/.yarn/bin/")))
+  (setenv "NVM_BIN"  "/Users/efund/.nvm/versions/node/v14.17.3/bin")
+  (setenv "HOMEBREW_BIN"  "/Users/efund/homebrew/bin")
+  (setenv "PATH"     (concat (getenv "PATH") ":" (getenv "NVM_BIN") ":" (getenv "HOMEBREW_BIN")))
+  (setq exec-path (append exec-path '("/Users/efund/.nvm/versions/node/v14.17.3/bin"))
+        exec-path (append exec-path '("/Users/efund/homebrew/bin"))
+        )
 #+END_SRC
 * pdf-tools
 #+BEGIN_SRC emacs-lisp
@@ -510,7 +677,8 @@
 (use-package swiper
   :bind
   ("C-s" . swiper)
-  ("C-x b" . ivy-switch-buffer))
+  ("C-x b" . ivy-switch-buffer)
+  ("C-x C-b" . ivy-switch-buffer))
 #+END_SRC
 * symbol-overlay
 #+BEGIN_SRC emacs-lisp
