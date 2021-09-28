@@ -118,6 +118,12 @@
   :init
   (default-text-scale-mode))
 #+END_SRC
+* diff-hl
+#+BEGIN_SRC emacs-lisp
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode t))
+#+END_SRC
 * display-time
 #+BEGIN_SRC emacs-lisp
 (setq display-time-format               "%Y-%m-%d %H:%M:%S"
@@ -181,6 +187,12 @@
 (use-package easy-hugo
   :init
   (setq easy-hugo-basedir "~/Documents/blog/"))
+#+END_SRC
+* editorconfig
+#+BEGIN_SRC emacs-lisp
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
 #+END_SRC
 * ein
 #+BEGIN_SRC emacs-lisp
@@ -255,18 +267,6 @@
   (set-face-background 'git-gutter:modified "#40a9ff") ;; background color
   (set-face-background 'git-gutter:added "#349204")
   (set-face-background 'git-gutter:deleted "red"))
-#+END_SRC
-* diff-hl
-#+BEGIN_SRC emacs-lisp
-(use-package diff-hl
-  :config
-  (global-diff-hl-mode t))
-#+END_SRC
-* editorconfig
-#+BEGIN_SRC emacs-lisp
-(use-package editorconfig
-  :config
-  (editorconfig-mode 1))
 #+END_SRC
 * git-messenger
 #+BEGIN_SRC emacs-lisp
@@ -360,56 +360,6 @@
 #+BEGIN_SRC emacs-lisp
 (use-package git-timemachine
   :disabled)
-#+END_SRC
-* vc-msg
-#+BEGIN_SRC emacs-lisp
-(use-package vs-msg
-  :disabled)
-#+END_SRC
-* smerge-mode
-#+BEGIN_SRC emacs-lisp
-;; Resolve diff3 conflicts
-;;(use-package smerge-mode
-;;  :ensure nil
-;;  :diminish
-;;  :pretty-hydra
-;;  ((:title (pretty-hydra-title "Smerge" 'octicon "diff")
-;;    :color pink :quit-key "q")
-;;   ("Move"
-;;    (("n" smerge-next "next")
-;;     ("p" smerge-prev "previous"))
-;;    "Keep"
-;;    (("b" smerge-keep-base "base")
-;;     ("u" smerge-keep-upper "upper")
-;;     ("l" smerge-keep-lower "lower")
-;;     ("a" smerge-keep-all "all")
-;;     ("RET" smerge-keep-current "current")
-;;     ("C-m" smerge-keep-current "current"))
-;;    "Diff"
-;;    (("<" smerge-diff-base-upper "upper/base")
-;;     ("=" smerge-diff-upper-lower "upper/lower")
-;;     (">" smerge-diff-base-lower "upper/lower")
-;;     ("R" smerge-refine "refine")
-;;     ("E" smerge-ediff "ediff"))
-;;    "Other"
-;;    (("C" smerge-combine-with-next "combine")
-;;     ("r" smerge-resolve "resolve")
-;;     ("k" smerge-kill-current "kill")
-;;     ("ZZ" (lambda ()
-;;             (interactive)
-;;             (save-buffer)
-;;             (bury-buffer))
-;;      "Save and bury buffer" :exit t))))
-;;  :bind (:map smerge-mode-map
-;;         ("C-c m" . smerge-mode-hydra/body))
-;;  :hook ((find-file . (lambda ()
-;;                        (save-excursion
-;;                          (goto-char (point-min))
-;;                          (when (re-search-forward "^<<<<<<< " nil t)
-;;                            (smerge-mode 1)))))
-;;         (magit-diff-visit-file . (lambda ()
-;;                                    (when smerge-mode
-;;                                      (hydra-smerge/body))))))
 #+END_SRC
 * highlight-indent-guides
 #+BEGIN_SRC emacs-lisp
@@ -665,6 +615,51 @@
   ("C-M-a" . sp-beginning-of-sexp)
   ("C-M-e" . sp-end-of-sexp)))
 #+END_SRC
+* smerge-mode
+#+BEGIN_SRC emacs-lisp
+;; Resolve diff3 conflicts
+;;(use-package smerge-mode
+;;  :ensure nil
+;;  :diminish
+;;  :pretty-hydra
+;;  ((:title (pretty-hydra-title "Smerge" 'octicon "diff")
+;;    :color pink :quit-key "q")
+;;   ("Move"
+;;    (("n" smerge-next "next")
+;;     ("p" smerge-prev "previous"))
+;;    "Keep"
+;;    (("b" smerge-keep-base "base")
+;;     ("u" smerge-keep-upper "upper")
+;;     ("l" smerge-keep-lower "lower")
+;;     ("a" smerge-keep-all "all")
+;;     ("RET" smerge-keep-current "current")
+;;     ("C-m" smerge-keep-current "current"))
+;;    "Diff"
+;;    (("<" smerge-diff-base-upper "upper/base")
+;;     ("=" smerge-diff-upper-lower "upper/lower")
+;;     (">" smerge-diff-base-lower "upper/lower")
+;;     ("R" smerge-refine "refine")
+;;     ("E" smerge-ediff "ediff"))
+;;    "Other"
+;;    (("C" smerge-combine-with-next "combine")
+;;     ("r" smerge-resolve "resolve")
+;;     ("k" smerge-kill-current "kill")
+;;     ("ZZ" (lambda ()
+;;             (interactive)
+;;             (save-buffer)
+;;             (bury-buffer))
+;;      "Save and bury buffer" :exit t))))
+;;  :bind (:map smerge-mode-map
+;;         ("C-c m" . smerge-mode-hydra/body))
+;;  :hook ((find-file . (lambda ()
+;;                        (save-excursion
+;;                          (goto-char (point-min))
+;;                          (when (re-search-forward "^<<<<<<< " nil t)
+;;                            (smerge-mode 1)))))
+;;         (magit-diff-visit-file . (lambda ()
+;;                                    (when smerge-mode
+;;                                      (hydra-smerge/body))))))
+#+END_SRC
 * solaire-mode
 #+BEGIN_SRC emacs-lisp
 (use-package solaire-mode
@@ -785,6 +780,11 @@
 * use-package-ensure-system-package
 #+BEGIN_SRC emacs-lisp
 (use-package use-package-ensure-system-package)
+#+END_SRC
+* vc-msg
+#+BEGIN_SRC emacs-lisp
+(use-package vs-msg
+  :disabled)
 #+END_SRC
 * web-mode
 #+BEGIN_SRC emacs-lisp
